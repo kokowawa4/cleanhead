@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CleanHead — by HzM</title>
+<style id="tabler-icons">/* Tabler Icons 2.44.0 (MIT) — subset, embedded so icons never depend on a CDN */
+@font-face{font-family:"tabler-icons";font-style:normal;font-weight:400;src:url(data:font/woff2;base64,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) format("woff2")}.ti{font-family:"tabler-icons"!important;speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;display:inline-block;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.ti-activity:before{content:"\ed23"}.ti-alarm:before{content:"\ea04"}.ti-archive:before{content:"\ea0b"}.ti-bell:before{content:"\ea35"}.ti-bolt:before{content:"\ea38"}.ti-book:before{content:"\ea39"}.ti-bookmark:before{content:"\ea3a"}.ti-brand-whatsapp:before{content:"\ec74"}.ti-briefcase:before{content:"\ea46"}.ti-bug:before{content:"\ea48"}.ti-building:before{content:"\ea4f"}.ti-building-estate:before{content:"\f5a5"}.ti-building-skyscraper:before{content:"\ec39"}.ti-bulb:before{content:"\ea51"}.ti-calendar:before{content:"\ea53"}.ti-calendar-event:before{content:"\ea52"}.ti-camera:before{content:"\ea54"}.ti-car:before{content:"\ebbb"}.ti-cash:before{content:"\ea55"}.ti-check:before{content:"\ea5e"}.ti-checkbox:before{content:"\eba6"}.ti-checklist:before{content:"\f074"}.ti-chevron-down:before{content:"\ea5f"}.ti-circle:before{content:"\ea6b"}.ti-circle-check:before{content:"\ea67"}.ti-circuit-resistor:before{content:"\f280"}.ti-clipboard:before{content:"\ea6f"}.ti-clipboard-list:before{content:"\ea6d"}.ti-clock:before{content:"\ea70"}.ti-cloud:before{content:"\ea76"}.ti-code:before{content:"\ea77"}.ti-coffee:before{content:"\ef0e"}.ti-cpu:before{content:"\ef8e"}.ti-credit-card:before{content:"\ea84"}.ti-database:before{content:"\ea88"}.ti-device-desktop:before{content:"\ea89"}.ti-device-laptop:before{content:"\eb64"}.ti-dots:before{content:"\ea95"}.ti-eye:before{content:"\ea9a"}.ti-file-description:before{content:"\f028"}.ti-file-dollar:before{content:"\efe0"}.ti-file-invoice:before{content:"\eb67"}.ti-file-text:before{content:"\eaa2"}.ti-files:before{content:"\edef"}.ti-flag:before{content:"\eaa6"}.ti-headphones:before{content:"\eabd"}.ti-home:before{content:"\eac1"}.ti-home-bolt:before{content:"\f336"}.ti-hourglass:before{content:"\ef93"}.ti-hourglass-low:before{content:"\f093"}.ti-inbox:before{content:"\eac4"}.ti-key:before{content:"\eac7"}.ti-link:before{content:"\eade"}.ti-list-check:before{content:"\eb6a"}.ti-loader-2:before{content:"\f226"}.ti-lock:before{content:"\eae2"}.ti-mail:before{content:"\eae5"}.ti-mail-forward:before{content:"\eeac"}.ti-map-pin:before{content:"\eae8"}.ti-message:before{content:"\eaef"}.ti-message-2:before{content:"\eaec"}.ti-microphone:before{content:"\eaf0"}.ti-network:before{content:"\f09f"}.ti-paint:before{content:"\eb00"}.ti-pencil:before{content:"\eb04"}.ti-phone:before{content:"\eb09"}.ti-photo:before{content:"\eb0a"}.ti-pin:before{content:"\ec9c"}.ti-plane:before{content:"\eb6f"}.ti-player-play:before{content:"\ed46"}.ti-plug:before{content:"\ebd9"}.ti-plug-connected:before{content:"\f00a"}.ti-plus:before{content:"\eb0b"}.ti-point:before{content:"\eb0c"}.ti-presentation:before{content:"\eb70"}.ti-receipt:before{content:"\edfd"}.ti-rocket:before{content:"\ec45"}.ti-route:before{content:"\eb17"}.ti-ruler:before{content:"\eb1a"}.ti-ruler-measure:before{content:"\f291"}.ti-send:before{content:"\eb1e"}.ti-server:before{content:"\eb1f"}.ti-settings:before{content:"\eb20"}.ti-shield:before{content:"\eb24"}.ti-shopping-cart:before{content:"\eb25"}.ti-signature:before{content:"\eee0"}.ti-sparkles:before{content:"\f6d7"}.ti-speakerphone:before{content:"\ed61"}.ti-star:before{content:"\eb2e"}.ti-target-arrow:before{content:"\f51a"}.ti-tool:before{content:"\eb40"}.ti-tools:before{content:"\ebca"}.ti-topology-star-3:before{content:"\f5e1"}.ti-trash:before{content:"\eb41"}.ti-user:before{content:"\eb4d"}.ti-users:before{content:"\ebf2"}.ti-video:before{content:"\ed22"}.ti-wifi:before{content:"\eb52"}.ti-world:before{content:"\eb54"}.ti-x:before{content:"\eb55"}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#0e0e1a;
+  --surface:#13132a;
+  --surface-2:#181834;
+  --border:rgba(255,255,255,0.07);
+  --border-soft:rgba(255,255,255,0.045);
+  --text:#e8e8f8;
+  --muted:#7070a0;
+  --accent:#7c6aff;
+  --now:#ff4d6d;
+  --soon:#ff9a3c;
+  --idea:#3ddc84;
+  --waiting:#60a5fa;
+  --done:#8892b0;
+  --serif:'Lora',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --shadow-card:0 18px 40px -18px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg) url('assets/wallpaper.jpg') center center / cover no-repeat fixed;
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:14px;
+  line-height:1.5;
+  min-height:100vh;
+  padding-bottom:120px;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* Ambient atmosphere — disabled while testing the wallpaper.jpg background (it has its own lighting baked in) */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
+  display:none;
+}
+/* Decorative glossy sphere bottom-right — disabled, wallpaper.jpg already has matching spheres baked in */
+.orb{
+  position:fixed;z-index:-1;border-radius:50%;pointer-events:none;
+  display:none;
+}
+.orb-1{
+  right:-60px;bottom:-50px;width:230px;height:230px;
+  background:radial-gradient(circle at 30% 26%, #7e6df0 0%, #43368f 32%, #1b1640 62%, #0c0a1c 100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.7), inset -18px -22px 50px rgba(0,0,0,.55), inset 10px 12px 30px rgba(255,255,255,.10);
+  filter:saturate(.92);
+}
+.orb-2{
+  left:-30px;bottom:140px;width:74px;height:74px;
+  background:radial-gradient(circle at 32% 28%, #2c2c4a 0%, #14142a 55%, #07070f 100%);
+  box-shadow:inset -8px -10px 18px rgba(0,0,0,.6), inset 5px 6px 12px rgba(255,255,255,.06), 0 16px 36px rgba(0,0,0,.6);
+}
+/* Decorative potted plant — disabled, wallpaper.jpg already has matching plants baked in */
+.deco-plant{ display:none; }
+/* Decorative potted plant — bottom-left ambient, same single key-light language as the rest of the UI */
+.deco-plant{
+  position:fixed;left:-14px;bottom:-18px;z-index:-1;pointer-events:none;
+  width:190px;height:auto;opacity:.92;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));
+}
+
+/* ============ GLOSSY 3D ICON TILES ============ */
+.tile{
+  display:flex;align-items:center;justify-content:center;flex:none;
+  border-radius:13px;color:#fff;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255,255,255,.38),
+    inset 0 -3px 6px rgba(0,0,0,.38),
+    inset 2px 0 3px rgba(255,255,255,.10),
+    0 8px 18px -6px var(--tile-glow, rgba(0,0,0,.5));
+  text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+.tile i{filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.tile-now    {background:linear-gradient(148deg,#ff7290 0%,#ff4d6d 42%,#b81f44 100%);--tile-glow:rgba(255,77,109,.45)}
+.tile-soon   {background:linear-gradient(148deg,#ffb86b 0%,#ff9a3c 42%,#c66a10 100%);--tile-glow:rgba(255,154,60,.45)}
+.tile-idea   {background:linear-gradient(148deg,#7af0ad 0%,#3ddc84 42%,#0f8f4c 100%);--tile-glow:rgba(61,220,132,.45)}
+.tile-waiting{background:linear-gradient(148deg,#8fc2ff 0%,#60a5fa 42%,#2a62c4 100%);--tile-glow:rgba(96,165,250,.45)}
+.tile-done   {background:linear-gradient(148deg,#7c8fe8 0%,#5d6fc7 42%,#33408a 100%);--tile-glow:rgba(124,143,232,.40)}
+.tile-accent {background:linear-gradient(148deg,#a496ff 0%,#7c6aff 42%,#4734c9 100%);--tile-glow:rgba(124,106,255,.5)}
+
+/* ============ TOP NAV ============ */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;gap:18px;
+  padding:14px 28px;
+  background:rgba(14,14,26,.82);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border-soft);
+}
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.brand .tile{width:44px;height:44px;font-family:var(--serif);font-size:25px;font-style:italic;font-weight:600;padding-bottom:2px}
+.brand-name{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
+.brand-by{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:7px;white-space:nowrap}
+.tabs{display:flex;gap:6px;margin:0 auto}
+.tab{
+  appearance:none;border:0;background:none;cursor:pointer;
+  font-family:var(--sans);font-size:14.5px;font-weight:500;color:var(--muted);
+  padding:9px 18px;border-radius:10px;position:relative;
+  transition:color .2s;
+}
+.tab:hover{color:var(--text)}
+.tab.active{color:#b3a7ff}
+.tab.active::after{
+  content:'';position:absolute;left:16px;right:16px;bottom:2px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  box-shadow:0 0 12px var(--accent);
+}
+.top-actions{display:flex;align-items:center;gap:10px}
+.btn-dump{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--sans);font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;
+  padding:10px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(148deg,#9486ff 0%,#7c6aff 45%,#5440dd 100%);
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.3), inset 0 -3px 6px rgba(0,0,0,.3), 0 10px 22px -8px rgba(124,106,255,.55);
+  transition:transform .15s ease, box-shadow .2s ease;
+}
+.btn-dump:hover{transform:translateY(-1px);box-shadow:inset 0 1.5px 1px rgba(255,255,255,.3), inset 0 -3px 6px rgba(0,0,0,.3), 0 14px 28px -8px rgba(124,106,255,.7)}
+.btn-dump:active{transform:translateY(0)}
+.icon-btn{
+  position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--border);background:rgba(255,255,255,.035);
+  color:var(--muted);font-size:19px;transition:color .2s, background .2s;
+}
+.icon-btn:hover{color:var(--text);background:rgba(255,255,255,.07)}
+.icon-btn .dot{
+  position:absolute;top:9px;right:9px;width:7px;height:7px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 6px var(--accent);
+}
+.avatar{
+  width:42px;height:42px;border-radius:50%;flex:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:14px;color:#fff;
+  background:radial-gradient(circle at 30% 25%, #8a7bff, #4633b8 70%);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.3), 0 8px 16px -6px rgba(124,106,255,.5);
+}
+
+/* ============ LAYOUT ============ */
+.page{padding:26px 28px 0;display:none}
+.page.active{display:block}
+.section-gap{margin-top:26px}
+
+/* ============ STATS ROW ============ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat{
+  --c:var(--accent);
+  position:relative;overflow:hidden;
+  border-radius:var(--r-lg);
+  border:1px solid rgba(255,255,255,.11);
+  background:
+    radial-gradient(240px 160px at 86% 24%, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%),
+    linear-gradient(150deg, rgba(255,255,255,.08) 0%, transparent 32%),
+    linear-gradient(135deg, color-mix(in srgb, var(--c) 13%, var(--surface)) 0%, var(--surface) 55%, #0b0b1e 100%);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.16),
+    inset 0 -16px 26px rgba(0,0,0,.35),
+    inset 1px 0 0 rgba(255,255,255,.05),
+    0 20px 44px -22px rgba(0,0,0,.7),
+    0 0 40px -22px var(--c);
+  padding:22px 24px;min-height:138px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .2s ease, box-shadow .25s ease;
+}
+.stat:hover{transform:translateY(-3px);box-shadow:var(--shadow-card), 0 18px 50px -22px var(--c)}
+.stat-label{
+  font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--c);
+  text-shadow:0 0 14px color-mix(in srgb, var(--c) 60%, transparent);
+}
+.stat-num{font-family:var(--serif);font-size:46px;font-weight:500;line-height:1;margin:8px 0 6px}
+.stat-sub{font-size:13px;color:var(--muted)}
+.stat-tilewrap{position:absolute;right:20px;bottom:20px;display:flex;align-items:flex-end}
+.stat .tile{width:54px;height:54px;font-size:26px;border-radius:15px}
+.stat-glowblob{
+  position:absolute;right:8px;top:-26px;width:130px;height:130px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%);
+  filter:blur(6px);
+}
+.stat-img{
+  position:absolute;right:0;top:0;height:100%;max-width:52%;object-fit:contain;object-position:right center;
+  pointer-events:none;
+}
+.stat.has-art .stat-tilewrap,.stat.has-art .stat-glowblob{display:none}
+.stat-now{--c:var(--now)} .stat-soon{--c:var(--soon)} .stat-idea{--c:var(--idea)} .stat-done{--c:#7c8fe8}
+
+/* ============ COLUMNS ============ */
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.col{
+  --c:var(--accent);
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.05) 0%, transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--c) 6%, var(--surface)) 0%, var(--surface) 45%, #0a0a1c 100%);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:var(--r-lg);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.10),
+    inset 0 -18px 26px rgba(0,0,0,.32),
+    0 18px 40px -18px rgba(0,0,0,.65);
+  padding:16px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.col-now{--c:var(--now)} .col-soon{--c:var(--soon)} .col-idea{--c:var(--idea)} .col-done{--c:#7c8fe8}
+.col-head{display:flex;align-items:center;gap:11px;padding:2px 2px 6px}
+.col-head .tile{width:38px;height:38px;font-size:18px;border-radius:11px}
+.col-title{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.2px}
+.col-count{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--muted);
+  background:rgba(255,255,255,.05);border:1px solid var(--border-soft);
+  padding:2px 8px;border-radius:999px;margin-left:2px;
+}
+.col-dots{margin-left:auto;color:var(--muted);font-size:18px;cursor:pointer;padding:4px;border-radius:8px;transition:color .2s}
+.col-dots:hover{color:var(--text)}
+
+/* ---- task card ---- */
+.card{
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:var(--r-md);
+  padding:13px;
+  transition:transform .18s ease, border-color .2s ease, background .2s ease, box-shadow .25s ease;
+}
+.card:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.03);
+  border-color:color-mix(in srgb, var(--c) 28%, rgba(255,255,255,.05));
+  box-shadow:0 0 24px -12px var(--c);
+}
+.card-row{display:flex;gap:12px;align-items:flex-start}
+.thumb{
+  width:72px;height:72px;border-radius:13px;flex:none;font-size:24px;
+  position:relative;overflow:hidden;
+}
+.card{position:relative}
+/* AI image fills the thumb square exactly — fixed dimensions, so crop never shifts with browser width */
+.thumb img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  border-radius:inherit;
+}
+.thumb .thumb-loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(90deg,#1a1a36 25%,#22224a 50%,#1a1a36 75%);
+  background-size:400% 100%;animation:shimmer 1.4s ease-in-out infinite;
+  color:rgba(255,255,255,.7);font-size:18px;
+}
+.thumb .thumb-loading i{animation:spin .7s linear infinite}
+.card-main{min-width:0;flex:1}
+.card-title{font-family:var(--serif);font-size:15.5px;font-weight:600;line-height:1.32}
+.card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:6px}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:600;
+}
+.chip i{font-size:14px}
+.chip-time{color:var(--c)}
+.chip-wait{color:var(--waiting)}
+.chip-vague{color:var(--muted);font-style:italic;font-weight:500}
+.chip-steps{
+  color:var(--muted);cursor:pointer;background:rgba(255,255,255,.05);
+  border:1px solid var(--border-soft);border-radius:999px;padding:2px 9px;
+  transition:color .2s,border-color .2s;user-select:none;
+}
+.chip-steps:hover{color:var(--text);border-color:rgba(255,255,255,.16)}
+.chip-steps i{transition:transform .25s ease}
+.card.open .chip-steps i{transform:rotate(180deg)}
+.card-note{font-size:12.5px;color:var(--muted);margin-top:5px}
+/* ---- DALL·E thumbnail banner (step 3) ---- */
+@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---- generation progress toast (persistent, bottom-right) ---- */
+.gen-progress{
+  position:fixed;right:22px;bottom:22px;z-index:110;
+  display:none;align-items:center;gap:10px;
+  background:rgba(19,19,42,.96);border:1px solid rgba(124,106,255,.4);
+  color:var(--text);font-size:13px;font-weight:500;
+  padding:11px 16px;border-radius:13px;
+  box-shadow:0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--accent);
+  min-width:220px;
+}
+.gen-progress.visible{display:flex}
+.gen-progress.error{border-color:rgba(255,77,109,.5);box-shadow:0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--now)}
+.gen-progress.error i{color:var(--now);animation:none}
+.gen-progress i{font-size:17px;color:var(--accent);animation:spin .7s linear infinite}
+.gen-progress-text{flex:1;line-height:1.3}
+.gen-progress-label{color:var(--muted);font-size:11px}
+.gen-dismiss{appearance:none;border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 4px;border-radius:6px;transition:color .2s}
+.gen-dismiss:hover{color:var(--text)}
+/* ---- per-card generate button ---- */
+.act-gen:hover{color:#cfc6ff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.12);box-shadow:0 0 16px -6px var(--accent)}
+.act-gen i{font-size:14px}
+
+/* steps */
+.steps{display:none;margin-top:11px;border-top:1px dashed var(--border);padding-top:10px;flex-direction:column;gap:7px}
+.card.open .steps{display:flex}
+.step{display:flex;align-items:center;gap:9px;font-size:12.8px;color:var(--text)}
+.step input{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;flex:none}
+.step.checked label{color:var(--muted);text-decoration:line-through}
+.step label{cursor:pointer}
+/* actions */
+.card-actions{display:flex;gap:8px;margin-top:12px}
+.act{
+  appearance:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--sans);font-size:12px;font-weight:600;
+  padding:6px 12px;border-radius:9px;border:1px solid var(--border);
+  background:rgba(255,255,255,.035);color:var(--muted);
+  transition:all .18s ease;
+}
+.act i{font-size:14px}
+.act-start:hover{color:#cfc6ff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.12);box-shadow:0 0 16px -6px var(--accent)}
+.act-done:hover{color:#9af0c0;border-color:rgba(61,220,132,.5);background:rgba(61,220,132,.10);box-shadow:0 0 16px -6px var(--idea)}
+.act-del{margin-left:auto;padding:6px 9px}
+.act-del:hover{color:#ff8aa0;border-color:rgba(255,77,109,.5);background:rgba(255,77,109,.10)}
+/* done card */
+.card-done .card-title{font-size:15px}
+.done-check{
+  width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  color:var(--idea);font-size:19px;border:1.5px solid rgba(61,220,132,.55);
+  background:rgba(61,220,132,.08);box-shadow:0 0 16px -4px rgba(61,220,132,.5), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.card-done .thumb{margin-left:auto;opacity:.92;width:46px;height:46px;font-size:21px;border-radius:12px}
+.done-sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+/* add task footer */
+.add-task{
+  appearance:none;cursor:pointer;width:100%;
+  display:flex;align-items:center;gap:8px;justify-content:flex-start;
+  font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted);
+  background:none;border:1.5px dashed rgba(255,255,255,.10);border-radius:13px;
+  padding:11px 14px;margin-top:auto;
+  transition:all .2s ease;
+}
+.add-task:hover{color:var(--text);border-color:color-mix(in srgb, var(--c) 50%, transparent);background:color-mix(in srgb, var(--c) 6%, transparent)}
+
+/* ============ PROGRESS ============ */
+.progress{
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  background:linear-gradient(180deg, var(--surface) 0%, #101022 100%);
+  box-shadow:var(--shadow-card);
+  padding:22px 24px 14px;
+}
+.progress-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.progress-head .tile{width:42px;height:42px;font-size:20px}
+.progress-title{font-family:var(--serif);font-size:21px;font-weight:600}
+.progress-sub{font-size:12.5px;color:var(--muted);margin-top:1px}
+.legend{display:flex;gap:18px;margin-top:12px;margin-left:56px}
+.legend span{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.legend .l-acc{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.legend .l-idea{background:var(--idea);box-shadow:0 0 8px var(--idea)}
+.range{
+  margin-left:auto;appearance:none;cursor:pointer;
+  font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text);
+  background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:11px;
+  padding:9px 14px;
+}
+.range:focus-visible{outline:2px solid var(--accent)}
+.chart-wrap{margin-top:6px}
+.chart-wrap svg{width:100%;height:auto;display:block}
+
+/* ============ BOTTOM NAV ============ */
+.bottomnav{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(19,19,42,.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid var(--border);border-radius:999px;
+  box-shadow:0 22px 50px -16px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.07);
+  padding:8px;
+}
+.bn-item{
+  appearance:none;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--muted);
+  padding:11px 18px;border-radius:999px;
+  transition:color .2s, background .2s;white-space:nowrap;
+}
+.bn-item i{font-size:18px}
+.bn-item:hover{color:var(--text)}
+.bn-item.active{
+  color:#cfc6ff;
+  background:linear-gradient(148deg, rgba(124,106,255,.28), rgba(124,106,255,.12));
+  border:1px solid rgba(124,106,255,.35);
+  box-shadow:0 0 22px -8px var(--accent), inset 0 1px 0 rgba(255,255,255,.12);
+  padding:10px 18px;
+}
+
+/* ============ CAPTURE / FOCUS STUBS ============ */
+.stub{
+  max-width:720px;margin:48px auto 0;text-align:center;
+}
+.stub .tile{width:64px;height:64px;font-size:30px;margin:0 auto 18px;border-radius:18px}
+.stub h2{font-family:var(--serif);font-size:28px;font-weight:600}
+.stub p{color:var(--muted);margin-top:8px;font-size:14px}
+.dump-box{
+  margin-top:24px;width:100%;min-height:170px;resize:vertical;
+  background:linear-gradient(160deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  border:1px solid var(--border);border-radius:var(--r-md);
+  color:var(--text);font-family:var(--sans);font-size:14.5px;line-height:1.6;
+  padding:18px;outline:none;transition:border-color .2s, box-shadow .2s;
+}
+.dump-box:focus{border-color:rgba(124,106,255,.5);box-shadow:0 0 0 3px rgba(124,106,255,.15)}
+.stub .btn-dump{margin-top:16px}
+.stub .soon-note{font-size:12px;color:var(--muted);margin-top:12px;opacity:.8}
+.focus-timer{
+  font-family:var(--serif);font-size:84px;font-weight:500;letter-spacing:.04em;
+  margin-top:20px;
+  text-shadow:0 0 40px rgba(124,106,255,.45);
+}
+.focus-task{
+  display:inline-flex;align-items:center;gap:10px;margin-top:10px;
+  font-size:14px;color:var(--muted);
+  background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:999px;padding:9px 18px;
+}
+.focus-task b{color:var(--text);font-weight:600}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(12px);
+  z-index:100;opacity:0;pointer-events:none;
+  background:rgba(24,24,52,.95);border:1px solid rgba(124,106,255,.4);
+  color:var(--text);font-size:13px;font-weight:500;
+  padding:11px 20px;border-radius:12px;
+  box-shadow:0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--accent);
+  transition:opacity .25s ease, transform .25s ease;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============ FOCUS RING / MOTION ============ */
+button:focus-visible, .chip-steps:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important}
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1280px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .board{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:860px){
+  .tabs{display:none}
+  .brand-name{font-size:20px}
+  .page{padding:18px 16px 0}
+  .topbar{padding:12px 16px}
+  .bn-item{padding:11px 13px}
+  .bn-item span{display:none}
+  .bn-item.active span{display:inline}
+}
+@media (max-width:680px){
+  .stats,.board{grid-template-columns:1fr}
+  .stat-num{font-size:38px}
+  .btn-dump span{display:none}
+  .btn-dump{padding:10px 13px}
+}
+
+/* ============ SETTINGS MODAL (step 2) ============ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:20px;
+  background:rgba(6,6,14,.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  width:100%;max-width:460px;
+  background:linear-gradient(180deg,var(--surface-2),var(--surface));
+  border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.modal-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:8px}
+.modal-head .tile{width:42px;height:42px;font-size:20px}
+.modal-title{font-family:var(--serif);font-size:21px;font-weight:600}
+.modal-sub{font-size:12.5px;color:var(--muted);margin-top:2px;max-width:36ch}
+.modal-x{margin-left:auto;appearance:none;border:0;background:none;color:var(--muted);cursor:pointer;
+  font-size:20px;padding:5px;border-radius:9px;transition:color .2s,background .2s}
+.modal-x:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.field-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px}
+.field-row{display:flex;gap:8px}
+.field{
+  width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;
+  color:var(--text);font-family:var(--sans);font-size:14px;padding:11px 14px;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field:focus{border-color:rgba(124,106,255,.5);box-shadow:0 0 0 3px rgba(124,106,255,.15)}
+select.field{cursor:pointer}
+.field-eye{
+  flex:none;width:46px;border:1px solid var(--border);border-radius:11px;
+  background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;font-size:17px;transition:color .2s,background .2s;
+}
+.field-eye:hover{color:var(--text);background:rgba(255,255,255,.07)}
+.key-status{font-size:12px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}
+.key-status.set{color:var(--idea)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;align-items:center}
+.modal-actions .act-del{margin-left:0}
+.modal-note{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5;opacity:.85}
+.backup-section{margin-top:20px;padding-top:18px;border-top:1px solid var(--border-soft)}
+.backup-row{display:flex;gap:10px;margin-top:10px}
+.backup-hint{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5;opacity:.85}
+/* mask the API key (dots) without using a real password input — keeps the browser's
+   password manager from autofilling the cloud-login password into it */
+.field-secret{-webkit-text-security:disc}
+.field-secret.show{-webkit-text-security:none}
+
+/* processing state on the Process button */
+.btn-dump.loading{opacity:.85;pointer-events:none}
+.btn-dump.loading i{animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---- generation progress toast (persistent, bottom-right) ---- */
+.gen-progress{
+  position:fixed;right:22px;bottom:22px;z-index:110;
+  display:none;align-items:center;gap:10px;
+  background:rgba(19,19,42,.96);border:1px solid rgba(124,106,255,.4);
+  color:var(--text);font-size:13px;font-weight:500;
+  padding:11px 16px;border-radius:13px;
+  box-shadow:0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--accent);
+  min-width:220px;
+}
+.gen-progress.visible{display:flex}
+.gen-progress.error{border-color:rgba(255,77,109,.5);box-shadow:0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--now)}
+.gen-progress.error i{color:var(--now);animation:none}
+.gen-progress i{font-size:17px;color:var(--accent);animation:spin .7s linear infinite}
+.gen-progress-text{flex:1;line-height:1.3}
+.gen-progress-label{color:var(--muted);font-size:11px}
+.gen-dismiss{appearance:none;border:0;background:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 4px;border-radius:6px;transition:color .2s}
+.gen-dismiss:hover{color:var(--text)}
+/* ---- per-card generate button ---- */
+.act-gen:hover{color:#cfc6ff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.12);box-shadow:0 0 16px -6px var(--accent)}
+.act-gen i{font-size:14px}
+
+</style>
+</head>
+<body>
+
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<svg class="deco-plant" viewBox="0 0 190 230" aria-hidden="true">
+  <defs>
+    <linearGradient id="potGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a2a4a"/>
+      <stop offset="100%" stop-color="#0c0c1c"/>
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4a3f8a"/>
+      <stop offset="55%" stop-color="#241f48"/>
+      <stop offset="100%" stop-color="#0c0a1c"/>
+    </linearGradient>
+  </defs>
+  <!-- tall stem leaves -->
+  <g>
+    <path d="M55 150 C 20 120, 10 60, 38 18 C 48 60, 50 110, 55 150 Z" fill="url(#leafGrad)"/>
+    <path d="M55 150 C 20 120, 10 60, 38 18 C 48 60, 50 110, 55 150 Z" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1.5"/>
+    <path d="M62 155 C 70 110, 95 70, 130 50 C 110 90, 85 125, 62 155 Z" fill="url(#leafGrad)"/>
+    <path d="M62 155 C 70 110, 95 70, 130 50 C 110 90, 85 125, 62 155 Z" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1.5"/>
+    <path d="M48 152 C 35 105, 45 55, 78 30 C 75 75, 65 115, 48 152 Z" fill="url(#leafGrad)" opacity=".9"/>
+  </g>
+  <!-- second shorter stem, slightly forward -->
+  <g transform="translate(8,8)">
+    <path d="M115 168 C 95 145, 92 110, 112 82 C 118 112, 118 142, 115 168 Z" fill="url(#leafGrad)" opacity=".85"/>
+    <path d="M122 170 C 130 140, 150 118, 172 108 C 158 132, 142 152, 122 170 Z" fill="url(#leafGrad)" opacity=".8"/>
+  </g>
+  <!-- pot -->
+  <path d="M30 158 L150 158 L138 222 C 138 226, 42 226, 42 222 Z" fill="url(#potGrad)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <ellipse cx="90" cy="158" rx="60" ry="9" fill="#1c1c38"/>
+  <path d="M30 158 L150 158" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
+</svg>
+
+<!-- ============ TOP NAV ============ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="tile tile-accent" aria-hidden="true">e</div>
+    <div class="brand-name">CleanHead</div>
+    <div class="brand-by">by HzM</div>
+  </div>
+
+  <nav class="tabs" aria-label="Primary">
+    <button class="tab active" data-page="dashboard">Dashboard</button>
+    <button class="tab" data-page="capture">Capture</button>
+    <button class="tab" data-page="focus">Focus</button>
+  </nav>
+
+  <div class="top-actions">
+    <button class="btn-dump" id="dumpBtn"><i class="ti ti-plus"></i><span>Dump</span></button>
+    <button class="icon-btn" aria-label="Notifications"><i class="ti ti-bell"></i><span class="dot"></span></button>
+    <button class="icon-btn" aria-label="Settings" id="settingsBtn"><i class="ti ti-settings"></i></button>
+    <div class="avatar" title="Hazem">H</div>
+  </div>
+</header>
+
+<!-- ============ DASHBOARD ============ -->
+<main class="page active" id="page-dashboard">
+
+  <!-- stats -->
+  <section class="stats" aria-label="Overview">
+    <article class="stat stat-now">
+      <img class="stat-img" src="assets/stat-now.png" alt="" onload="this.closest('.stat').classList.add('has-art')" onerror="this.remove()">
+      <div>
+        <div class="stat-label">DO NOW</div>
+        <div class="stat-num" id="count-now">0</div>
+        <div class="stat-sub">Tasks to tackle today</div>
+      </div>
+      <div class="stat-glowblob"></div>
+      <div class="stat-tilewrap"><div class="tile tile-now"><i class="ti ti-bolt"></i></div></div>
+    </article>
+
+    <article class="stat stat-soon">
+      <img class="stat-img" src="assets/stat-soon.png" alt="" onload="this.closest('.stat').classList.add('has-art')" onerror="this.remove()">
+      <div>
+        <div class="stat-label">DO SOON</div>
+        <div class="stat-num" id="count-soon">0</div>
+        <div class="stat-sub">Upcoming priorities</div>
+      </div>
+      <div class="stat-glowblob"></div>
+      <div class="stat-tilewrap"><div class="tile tile-soon"><i class="ti ti-calendar"></i></div></div>
+    </article>
+
+    <article class="stat stat-idea">
+      <img class="stat-img" src="assets/stat-ideas.png" alt="" onload="this.closest('.stat').classList.add('has-art')" onerror="this.remove()">
+      <div>
+        <div class="stat-label">IDEAS</div>
+        <div class="stat-num" id="count-idea">0</div>
+        <div class="stat-sub">New ideas captured</div>
+      </div>
+      <div class="stat-glowblob"></div>
+      <div class="stat-tilewrap"><div class="tile tile-idea"><i class="ti ti-bulb"></i></div></div>
+    </article>
+
+    <article class="stat stat-done">
+      <img class="stat-img" src="assets/stat-done.png" alt="" onload="this.closest('.stat').classList.add('has-art')" onerror="this.remove()">
+      <div>
+        <div class="stat-label">DONE</div>
+        <div class="stat-num" id="count-done">0</div>
+        <div class="stat-sub">Completed tasks</div>
+      </div>
+      <div class="stat-glowblob"></div>
+      <div class="stat-tilewrap"><div class="tile tile-done"><i class="ti ti-checkbox"></i></div></div>
+    </article>
+  </section>
+
+  <!-- board -->
+  <section class="board section-gap" id="board" aria-label="Task board"></section>
+
+  <!-- progress -->
+  <section class="progress section-gap" aria-label="Progress">
+    <div class="progress-head">
+      <div class="tile tile-accent"><i class="ti ti-activity"></i></div>
+      <div>
+        <div class="progress-title">Progress</div>
+        <div class="progress-sub">Overview of completed tasks</div>
+      </div>
+      <select class="range" id="rangeSel" aria-label="Time range">
+        <option>This Week</option>
+        <option>Last Week</option>
+        <option>This Month</option>
+      </select>
+    </div>
+    <div class="legend">
+      <span><i class="l-acc"></i>Completed tasks</span>
+      <span><i class="l-idea"></i>Ideas captured</span>
+    </div>
+    <div class="chart-wrap" id="chart"></div>
+  </section>
+
+</main>
+
+<!-- ============ CAPTURE ============ -->
+<main class="page" id="page-capture">
+  <div class="stub">
+    <div class="tile tile-accent"><i class="ti ti-inbox"></i></div>
+    <h2>Brain dump</h2>
+    <p>Empty your head. Everything in one box — GPT-4o sorts it into Do Now, Do Soon, Waiting, and Ideas.</p>
+    <textarea id="dumpText" class="dump-box" placeholder="Type everything on your mind… meetings, ideas, errands, that villa Crestron config you keep postponing."></textarea>
+    <button class="btn-dump" id="processBtn"><i class="ti ti-sparkles"></i><span>Process with AI</span></button>
+    <div class="soon-note">Runs GPT-4o on your text. Add your OpenAI key in <a href="#" id="openSettingsLink" style="color:#b3a7ff">Settings</a> first.</div>
+  </div>
+</main>
+
+<!-- ============ FOCUS ============ -->
+<main class="page" id="page-focus">
+  <div class="stub">
+    <div class="tile tile-now"><i class="ti ti-target-arrow"></i></div>
+    <h2>Focus session</h2>
+    <p>One task. One timer. Nothing else.</p>
+    <div class="focus-timer">25:00</div>
+    <div class="focus-task"><i class="ti ti-bolt" style="color:var(--now)"></i><span>Up next:</span><b id="focusTaskName">—</b></div>
+    <br>
+    <button class="btn-dump" onclick="toast('Focus timer gets wired after design approval ✦')"><i class="ti ti-player-play"></i><span>Start session</span></button>
+  </div>
+</main>
+
+<!-- ============ BOTTOM NAV ============ -->
+<nav class="bottomnav" aria-label="Bottom navigation">
+  <button class="bn-item active" data-page="dashboard"><i class="ti ti-circle-check"></i><span>Tasks</span></button>
+  <button class="bn-item" data-page="capture"><i class="ti ti-inbox"></i><span>Capture</span></button>
+  <button class="bn-item" data-page="focus"><i class="ti ti-target-arrow"></i><span>Focus</span></button>
+  <button class="bn-item" onclick="toast('Reminders — planned for a later step')"><i class="ti ti-bell"></i><span>Reminders</span></button>
+  <button class="bn-item" onclick="toast('Calendar — planned for a later step')"><i class="ti ti-calendar"></i><span>Calendar</span></button>
+  <button class="bn-item" onclick="openSettings()"><i class="ti ti-settings"></i><span>Settings</span></button>
+</nav>
+
+<!-- ============ SETTINGS MODAL (step 2) ============ -->
+<div class="modal-overlay" id="settingsModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="modal-head">
+      <div class="tile tile-accent"><i class="ti ti-key"></i></div>
+      <div>
+        <div class="modal-title">Settings</div>
+        <div class="modal-sub">Your OpenAI key powers AI capture. It stays in this browser only.</div>
+      </div>
+      <button class="modal-x" id="closeSettings" aria-label="Close settings"><i class="ti ti-x"></i></button>
+    </div>
+
+    <label class="field-label" for="oaiKey">OpenAI API key</label>
+    <div class="field-row">
+      <input id="oaiKey" class="field field-secret" type="text" name="cleanhead-openai-key" placeholder="sk-…" autocomplete="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true">
+      <button type="button" class="field-eye" id="toggleKey" aria-label="Show key"><i class="ti ti-eye"></i></button>
+    </div>
+    <div class="key-status" id="keyStatus"><i class="ti ti-point"></i><span>No key saved</span></div>
+
+    <label class="field-label" for="oaiModel">Model</label>
+    <select id="oaiModel" class="field">
+      <option value="gpt-4o">gpt-4o</option>
+      <option value="gpt-4o-mini">gpt-4o-mini — cheaper, faster</option>
+    </select>
+
+    <div class="modal-actions">
+      <button type="button" class="act act-del" id="clearKey"><i class="ti ti-trash"></i>Clear</button>
+      <button type="button" class="btn-dump" id="saveKey"><i class="ti ti-check"></i><span>Save</span></button>
+    </div>
+
+    <div class="backup-section">
+      <label class="field-label">Backup &amp; sync</label>
+      <div class="backup-row">
+        <button type="button" class="act act-start" id="exportData"><i class="ti ti-files"></i>Export JSON</button>
+        <button type="button" class="act act-start" id="importData"><i class="ti ti-inbox"></i>Import JSON</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+      <div class="backup-hint">Export saves all your tasks + settings to a file. Import restores them — use it to move data to another device. The file includes your API key, so keep it private.</div>
+    </div>
+
+    <div class="backup-section" id="syncSection">
+      <label class="field-label">Cloud sync</label>
+
+      <div id="syncLoggedOut">
+        <input id="syncEmail" class="field" type="email" placeholder="email" autocomplete="username" spellcheck="false" style="margin-top:10px">
+        <input id="syncPass" class="field" type="password" placeholder="password" autocomplete="current-password" style="margin-top:8px">
+        <div class="backup-row">
+          <button type="button" class="act act-start" id="syncLogin"><i class="ti ti-plug-connected"></i>Log in</button>
+          <button type="button" class="act act-start" id="syncSignup"><i class="ti ti-user"></i>Sign up</button>
+        </div>
+      </div>
+
+      <div id="syncLoggedIn" style="display:none">
+        <div class="key-status set" id="syncStatus" style="margin-top:10px"><i class="ti ti-cloud"></i><span>Synced</span></div>
+        <div class="backup-row">
+          <button type="button" class="act act-del" id="syncLogout" style="margin-left:0"><i class="ti ti-x"></i>Log out</button>
+        </div>
+      </div>
+
+      <div class="backup-hint">Log in once on each device — your tasks then sync automatically across them. Your API key stays on this device only.</div>
+    </div>
+
+    <div class="modal-note">Requests go straight from your browser to OpenAI — no server in between. Keep this file private: anyone with it and your saved key can spend your quota.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ================================================================
+   CleanHead v0.3 — design pass (dummy data, no API calls)
+   by HzM · localStorage persistence · vanilla JS
+================================================================ */
+const LS_KEY = 'cleanhead_v03_design';
+
+/* ---------- cloud sync config (Supabase) ----------
+   The anon key is a public, browser-safe key. Row Level Security on the
+   `cleanhead` table means it can only ever read/write the logged-in user's
+   own row. The OpenAI key is NOT synced — it stays in localStorage only. */
+const SB_URL     = 'https://gpgrslfwlbzuxpsdzazs.supabase.co';
+const SB_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZ3JzbGZ3bGJ6dXhwc2R6YXpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NjUxODgsImV4cCI6MjA5NzU0MTE4OH0.O7nr5OWD9o6NDKyU_eJdJdggOkE2zldvFW_wRyccGuQ';
+const SESSION_LS = 'cleanhead_session';
+
+const SEED = {
+  tasks: [
+    { id:'t1', cat:'now',  title:'Write Black Arrow proposal', time:'60 min', icon:'ti-file-text',
+      preview:true, previewIcon:'ti-signature',
+      steps:[
+        {label:'Outline scope & system zones', done:true},
+        {label:'Price BQ line items', done:false},
+        {label:'Export PDF & send to client', done:false}
+      ]},
+    { id:'t2', cat:'now',  title:'Reply to client email', time:'5 min', icon:'ti-mail' },
+
+    { id:'t3', cat:'soon', title:'Finish villa Crestron config', time:'2 h', icon:'ti-home-bolt',
+      preview:true, previewIcon:'ti-building-estate',
+      steps:[
+        {label:'Load SIMPL program to CP4', done:false},
+        {label:'Test lighting & shade scenes', done:false},
+        {label:'Commission touchpanels', done:false}
+      ]},
+    { id:'t4', cat:'soon', title:'Send quotation to Mazen', time:'30 min', icon:'ti-file-dollar' },
+    { id:'t5', cat:'soon', title:'Client sign-off on BQ', waiting:'waiting on Mazen', icon:'ti-hourglass' },
+
+    { id:'t6', cat:'idea', title:'New Sensibo driver feature', vague:true, icon:'ti-bulb',
+      preview:true, previewIcon:'ti-cpu' },
+
+    { id:'t7', cat:'done', title:'Review system architecture', icon:'ti-topology-star-3' },
+    { id:'t8', cat:'done', title:'Client onboarding call', icon:'ti-headphones' }
+  ],
+  week: {
+    days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    completed:[3,6,9,12,11,6,2],
+    ideas:[1,2,4,3,5,2,1]
+  }
+};
+
+const CATS = {
+  now:  { name:'Do Now',  tile:'tile-now',     icon:'ti-bolt',          var:'--now',  add:'Add task' },
+  soon: { name:'Do Soon', tile:'tile-soon',    icon:'ti-calendar',      var:'--soon', add:'Add task' },
+  idea: { name:'Ideas',   tile:'tile-idea',    icon:'ti-bulb',          var:'--idea', add:'Add idea' },
+  done: { name:'Done',    tile:'tile-done',    icon:'ti-checkbox',      var:'--done', add:'Add done' }
+};
+const THUMB_TILE = { now:'tile-now', soon:'tile-soon', idea:'tile-idea', done:'tile-done' };
+
+/* ---------- state ---------- */
+let state = structuredClone(SEED); // safe default — prevents "state is undefined" if load() crashes
+function load(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    state = raw ? JSON.parse(raw) : structuredClone(SEED);
+  }catch(e){ state = structuredClone(SEED); }
+}
+/* ---------- thumbnails live in IndexedDB, not localStorage ----------
+   AI thumbnails are ~1-2 MB base64 each; keeping them in localStorage blows
+   the ~5 MB quota and breaks ALL saves (API key, tasks…). So the persisted
+   state is "slim" (base64 stripped) and the images go to IndexedDB instead. */
+const IDB_NAME='cleanhead_thumbs', IDB_STORE='thumbs';
+const hasIDB = (()=>{ try{ return !!window.indexedDB; }catch(e){ return false; } })();
+function _idb(){ return new Promise((res,rej)=>{ const r=indexedDB.open(IDB_NAME,1); r.onupgradeneeded=()=>r.result.createObjectStore(IDB_STORE); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+async function idbSet(k,v){ if(!hasIDB) return; const db=await _idb(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readwrite'); tx.objectStore(IDB_STORE).put(v,k); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+async function idbGet(k){ if(!hasIDB) return undefined; const db=await _idb(); return new Promise((res,rej)=>{ const tx=db.transaction(IDB_STORE,'readonly'); const rq=tx.objectStore(IDB_STORE).get(k); rq.onsuccess=()=>res(rq.result); rq.onerror=()=>rej(rq.error); }); }
+
+/* a clone of state with base64 thumbnails stripped (used for localStorage + cloud) */
+function slimState(){
+  const s = structuredClone(state);
+  (s.tasks||[]).forEach(t=>{
+    if(typeof t.thumb==='string' && t.thumb.startsWith('data:')){ delete t.thumb; t.thumbInIdb=true; }
+  });
+  return s;
+}
+function persistThumbs(){
+  (state.tasks||[]).forEach(t=>{ if(typeof t.thumb==='string' && t.thumb.startsWith('data:')) idbSet(t.id, t.thumb).catch(()=>{}); });
+}
+async function hydrateThumbs(){
+  if(!hasIDB) return;
+  let changed=false;
+  for(const t of (state.tasks||[])){
+    if(!t.thumb && t.thumbInIdb){ try{ const d=await idbGet(t.id); if(d){ t.thumb=d; changed=true; } }catch(e){} }
+  }
+  if(changed) render();
+}
+
+function save(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(slimState())); }
+  catch(e){ console.warn('save failed', e); }
+  persistThumbs();
+  schedulePush();
+}
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, isError=false){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  t.style.borderColor = isError ? 'rgba(255,77,109,.5)' : '';
+  t.style.boxShadow   = isError ? '0 14px 36px -10px rgba(0,0,0,.7), 0 0 24px -10px var(--now)' : '';
+  clearTimeout(t._h);
+  t._h = setTimeout(()=>{ t.classList.remove('show'); t.style.borderColor=''; t.style.boxShadow=''; }, isError ? 8000 : 2400);
+}
+
+/* ---------- render ---------- */
+function render(){
+  // stats
+  const by = c => state.tasks.filter(t=>t.cat===c);
+  $('#count-now').textContent  = by('now').length;
+  $('#count-soon').textContent = by('soon').length;
+  $('#count-idea').textContent = by('idea').length;
+  $('#count-done').textContent = by('done').length;
+
+  // focus stub
+  const next = by('now')[0];
+  $('#focusTaskName').textContent = next ? next.title : 'All clear 🎉';
+
+  // board
+  const board = $('#board');
+  board.innerHTML = '';
+  for(const key of ['now','soon','idea','done']){
+    const cat = CATS[key];
+    const tasks = by(key);
+    const col = document.createElement('div');
+    col.className = `col col-${key}`;
+    col.innerHTML = `
+      <div class="col-head">
+        <div class="tile ${cat.tile}"><i class="ti ${cat.icon}"></i></div>
+        <div class="col-title">${cat.name}</div>
+        <div class="col-count">${tasks.length}</div>
+        <i class="ti ti-dots col-dots" role="button" tabindex="0" title="Column options"></i>
+      </div>
+      ${tasks.map(t => key==='done' ? doneCard(t) : taskCard(t,key)).join('')}
+      <button class="add-task" data-cat="${key}"><i class="ti ti-plus"></i>${cat.add}</button>
+    `;
+    board.appendChild(col);
+  }
+}
+
+function taskCard(t){
+  const meta = [];
+  if(t.time)    meta.push(`<span class="chip chip-time"><i class="ti ti-clock"></i>${esc(t.time)}</span>`);
+  if(t.waiting) meta.push(`<span class="chip chip-wait"><i class="ti ti-hourglass-low"></i>${esc(t.waiting)}</span>`);
+  if(t.vague)   meta.push(`<span class="chip chip-vague"><i class="ti ti-cloud"></i>vague — needs shaping</span>`);
+
+  // single disclosure chip covers both note + steps — nothing extra shows until clicked
+  const hasSteps = t.steps?.length > 0;
+  const hasNote  = !!t.note;
+  if(hasSteps || hasNote){
+    const label = hasSteps
+      ? `${t.steps.filter(s=>s.done).length}/${t.steps.length} steps`
+      : 'Details';
+    meta.push(`<span class="chip chip-steps" role="button" tabindex="0" data-toggle="${t.id}">
+      ${label} <i class="ti ti-chevron-down"></i></span>`);
+  }
+
+  // square thumbnail: real AI image > shimmer while generating > category icon fallback
+  let thumbInner = `<i class="ti ${t.icon||'ti-circle'}"></i>`;
+  if(t.thumbLoading){
+    thumbInner = `<div class="thumb-loading"><i class="ti ti-loader-2"></i></div>`;
+  } else if(t.thumb){
+    thumbInner = `<img src="${t.thumb}" alt="${esc(t.title)}" loading="lazy">`;
+  }
+
+  return `
+  <article class="card" id="card-${t.id}">
+    <div class="card-row">
+      <div class="tile thumb ${THUMB_TILE[t.cat]}">${thumbInner}</div>
+      <div class="card-main">
+        <div class="card-title">${esc(t.title)}</div>
+        <div class="card-meta">${meta.join('')}</div>
+      </div>
+    </div>
+    ${(hasSteps || hasNote) ? `
+      <div class="steps">
+        ${hasNote ? `<div class="card-note">${esc(t.note)}</div>` : ''}
+        ${hasSteps ? t.steps.map((s,i)=>`
+          <div class="step ${s.done?'checked':''}">
+            <input type="checkbox" id="st-${t.id}-${i}" data-step="${t.id}:${i}" ${s.done?'checked':''}>
+            <label for="st-${t.id}-${i}">${esc(s.label)}</label>
+          </div>`).join('') : ''}
+      </div>` : ''}
+    <div class="card-actions">
+      <button class="act act-start" data-start="${t.id}"><i class="ti ti-player-play"></i>Start</button>
+      <button class="act act-done" data-done="${t.id}"><i class="ti ti-check"></i>Done</button>
+      ${!t.thumb && !t.thumbLoading ? `<button class="act act-gen" data-gen="${t.id}" title="Generate AI image"><i class="ti ti-sparkles"></i></button>` : ''}
+      <button class="act act-del" data-del="${t.id}" aria-label="Delete task"><i class="ti ti-trash"></i></button>
+    </div>
+  </article>`;
+}
+
+function doneCard(t){
+  return `
+  <article class="card card-done" id="card-${t.id}">
+    <div class="card-row" style="align-items:center">
+      <div class="done-check"><i class="ti ti-check"></i></div>
+      <div class="card-main">
+        <div class="card-title">${esc(t.title)}</div>
+        <div class="done-sub">Completed</div>
+      </div>
+      <div class="tile thumb ${THUMB_TILE.done}"><i class="ti ${t.icon||'ti-circle-check'}"></i></div>
+    </div>
+  </article>`;
+}
+
+/* ---------- chart ---------- */
+function smoothPath(pts){
+  if(pts.length < 2) return '';
+  let d = `M ${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0 = pts[Math.max(0,i-1)], p1 = pts[i], p2 = pts[i+1], p3 = pts[Math.min(pts.length-1,i+2)];
+    const c1x = p1[0] + (p2[0]-p0[0])/6, c1y = p1[1] + (p2[1]-p0[1])/6;
+    const c2x = p2[0] - (p3[0]-p1[0])/6, c2y = p2[1] - (p3[1]-p1[1])/6;
+    d += ` C ${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2[0]},${p2[1]}`;
+  }
+  return d;
+}
+
+function renderChart(){
+  const W=1100, H=290, padL=46, padR=30, padT=36, padB=44;
+  const {days, completed, ideas} = state.week;
+  const maxY = 15, n = days.length;
+  const x = i => padL + i*(W-padL-padR)/(n-1);
+  const y = v => padT + (1 - v/maxY)*(H-padT-padB);
+
+  const cPts = completed.map((v,i)=>[x(i), +y(v).toFixed(1)]);
+  const iPts = ideas.map((v,i)=>[x(i), +y(v).toFixed(1)]);
+
+  const grid = [0,5,10,15].map(v=>`
+    <line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+    <text x="${padL-10}" y="${y(v)+4}" fill="#7070a0" font-size="12" text-anchor="end" font-family="Inter,sans-serif">${v}</text>`).join('');
+
+  const labels = days.map((d,i)=>`
+    <text x="${x(i)}" y="${H-14}" fill="#7070a0" font-size="12.5" text-anchor="middle" font-family="Inter,sans-serif">${d}</text>`).join('');
+
+  const dots = (pts,color)=>pts.map(p=>`
+    <circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${color}" stroke="#0e0e1a" stroke-width="2" filter="url(#glow)"/>`).join('');
+
+  // floating value badges (peak completed + Sat ideas)
+  const peakI = completed.indexOf(Math.max(...completed));
+  const satI = 5;
+  const badge = (cx, cy, big, small, fill, stroke) => `
+    <g transform="translate(${cx-34},${cy-58})">
+      <rect width="68" height="46" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="1"/>
+      <text x="34" y="20" fill="#fff" font-size="16" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">${big}</text>
+      <text x="34" y="36" fill="rgba(255,255,255,.75)" font-size="10.5" text-anchor="middle" font-family="Inter,sans-serif">${small}</text>
+    </g>`;
+
+  $('#chart').innerHTML = `
+  <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly progress chart">
+    <defs>
+      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2.2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <linearGradient id="fillAcc" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(124,106,255,.20)"/>
+        <stop offset="100%" stop-color="rgba(124,106,255,0)"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    <path d="${smoothPath(cPts)} L ${cPts.at(-1)[0]},${y(0)} L ${cPts[0][0]},${y(0)} Z" fill="url(#fillAcc)"/>
+    <path d="${smoothPath(iPts)}" fill="none" stroke="#3ddc84" stroke-width="2.5" filter="url(#glow)"/>
+    <path d="${smoothPath(cPts)}" fill="none" stroke="#7c6aff" stroke-width="2.5" filter="url(#glow)"/>
+    ${dots(iPts,'#3ddc84')}
+    ${dots(cPts,'#7c6aff')}
+    ${badge(x(peakI), y(completed[peakI]), completed[peakI], 'Completed', 'rgba(124,106,255,.32)', 'rgba(124,106,255,.7)')}
+    ${badge(x(satI), y(ideas[satI]), ideas[satI], 'Ideas', 'rgba(61,220,132,.22)', 'rgba(61,220,132,.6)')}
+    ${labels}
+  </svg>`;
+}
+
+/* ---------- interactions ---------- */
+document.addEventListener('click', e=>{
+  const tgl = e.target.closest('[data-toggle]');
+  if(tgl){ $('#card-'+tgl.dataset.toggle)?.classList.toggle('open'); return; }
+
+  const del = e.target.closest('[data-del]');
+  if(del){
+    state.tasks = state.tasks.filter(t=>t.id!==del.dataset.del);
+    save(); render(); toast('Task deleted');
+    return;
+  }
+  const done = e.target.closest('[data-done]');
+  if(done){
+    const t = state.tasks.find(t=>t.id===done.dataset.done);
+    if(t){ t.cat='done'; delete t.preview; save(); render(); toast(`Nice — “${t.title}” completed ✓`); }
+    return;
+  }
+  const start = e.target.closest('[data-start]');
+  if(start){
+    const t = state.tasks.find(t=>t.id===start.dataset.start);
+    switchPage('focus');
+    if(t) $('#focusTaskName').textContent = t.title;
+    return;
+  }
+  const add = e.target.closest('.add-task');
+  if(add){ toast('Manual add + AI capture land in step 2 ✦'); return; }
+
+  const gen = e.target.closest('[data-gen]');
+  if(gen){
+    const t = state.tasks.find(t=>t.id===gen.dataset.gen);
+    if(t) generateThumbnails([t]);
+    return;
+  }
+});
+
+document.addEventListener('change', e=>{
+  const st = e.target.closest('[data-step]');
+  if(st){
+    const [id,i] = st.dataset.step.split(':');
+    const t = state.tasks.find(t=>t.id===id);
+    if(t?.steps?.[i]){
+      t.steps[i].done = st.checked;
+      save();
+      st.closest('.step').classList.toggle('checked', st.checked);
+      const chip = document.querySelector(`[data-toggle="${id}"]`);
+      if(chip){
+        const d = t.steps.filter(s=>s.done).length;
+        chip.innerHTML = `${d}/${t.steps.length} steps <i class="ti ti-chevron-down"></i>`;
+        $('#card-'+id).classList.add('open');
+      }
+    }
+  }
+});
+
+/* ---------- page switching ---------- */
+function switchPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active', p.id==='page-'+name));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.page===name));
+  document.querySelectorAll('.bn-item[data-page]').forEach(b=>b.classList.toggle('active', b.dataset.page===name));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('[data-page]').forEach(el=>{
+  el.addEventListener('click', ()=>switchPage(el.dataset.page));
+});
+$('#dumpBtn')?.addEventListener('click', ()=>switchPage('capture'));
+$('#rangeSel')?.addEventListener('change', ()=>toast('Range filtering gets real data after the API step'));
+
+/* ================================================================
+   STEP 2 — GPT-4o brain-dump extraction
+================================================================ */
+const KEY_LS = 'cleanhead_oai_key';
+const MODEL_LS = 'cleanhead_oai_model';
+const ICON_DEFAULT = { now:'ti-bolt', soon:'ti-calendar', idea:'ti-bulb' };
+const ALLOWED_ICONS = new Set(['ti-activity','ti-alarm','ti-archive','ti-bell','ti-bolt','ti-book','ti-bookmark','ti-brand-whatsapp','ti-briefcase','ti-bug','ti-building','ti-building-estate','ti-building-skyscraper','ti-bulb','ti-calendar','ti-calendar-event','ti-camera','ti-car','ti-cash','ti-check','ti-checkbox','ti-checklist','ti-chevron-down','ti-circle','ti-circle-check','ti-circuit-resistor','ti-clipboard','ti-clipboard-list','ti-clock','ti-cloud','ti-code','ti-coffee','ti-cpu','ti-credit-card','ti-database','ti-device-desktop','ti-device-laptop','ti-dots','ti-eye','ti-file-description','ti-file-dollar','ti-file-invoice','ti-file-text','ti-files','ti-flag','ti-headphones','ti-home','ti-home-bolt','ti-hourglass','ti-hourglass-low','ti-inbox','ti-key','ti-link','ti-list-check','ti-loader-2','ti-lock','ti-mail','ti-mail-forward','ti-map-pin','ti-message','ti-message-2','ti-microphone','ti-network','ti-paint','ti-pencil','ti-phone','ti-photo','ti-pin','ti-plane','ti-player-play','ti-plug','ti-plug-connected','ti-plus','ti-point','ti-presentation','ti-receipt','ti-rocket','ti-route','ti-ruler','ti-ruler-measure','ti-send','ti-server','ti-settings','ti-shield','ti-shopping-cart','ti-signature','ti-sparkles','ti-speakerphone','ti-star','ti-target-arrow','ti-tool','ti-tools','ti-topology-star-3','ti-trash','ti-user','ti-users','ti-video','ti-wifi','ti-world','ti-x']);
+
+const getKey   = ()=>{ try{ return localStorage.getItem(KEY_LS)   || ''; }catch(e){ return ''; } };
+const getModel = ()=>{ try{ return localStorage.getItem(MODEL_LS) || 'gpt-4o'; }catch(e){ return 'gpt-4o'; } };
+
+/* ---- settings modal ---- */
+function openSettings(){
+  const m = $('#settingsModal');
+  $('#oaiKey').value = getKey();
+  $('#oaiModel').value = getModel();
+  refreshKeyStatus();
+  refreshSyncUI();
+  m.classList.add('open');
+  m.setAttribute('aria-hidden','false');
+  setTimeout(()=>$('#oaiKey').focus(), 60);
+}
+function closeSettings(){
+  const m = $('#settingsModal');
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden','true');
+}
+function refreshKeyStatus(){
+  const el = $('#keyStatus');
+  if(getKey()){ el.classList.add('set'); el.innerHTML = '<i class="ti ti-circle-check"></i><span>Key saved in this browser</span>'; }
+  else        { el.classList.remove('set'); el.innerHTML = '<i class="ti ti-point"></i><span>No key saved</span>'; }
+}
+
+$('#settingsBtn')?.addEventListener('click', openSettings);
+$('#closeSettings')?.addEventListener('click', closeSettings);
+$('#openSettingsLink')?.addEventListener('click', e=>{ e.preventDefault(); openSettings(); });
+$('#settingsModal')?.addEventListener('click', e=>{ if(e.target.id==='settingsModal') closeSettings(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSettings(); });
+
+$('#toggleKey')?.addEventListener('click', ()=>{
+  const show = $('#oaiKey').classList.toggle('show'); // toggle CSS masking, not input type
+  $('#toggleKey').innerHTML = `<i class="ti ti-eye"></i>`;
+  $('#toggleKey').style.color = show ? 'var(--accent)' : '';
+});
+$('#saveKey')?.addEventListener('click', ()=>{
+  const k = $('#oaiKey').value.trim();
+  let err = '';
+  try{
+    if(k) localStorage.setItem(KEY_LS, k); else localStorage.removeItem(KEY_LS);
+    localStorage.setItem(MODEL_LS, $('#oaiModel').value);
+  }catch(e){ err = (e && e.name || 'Error') + ': ' + (e && e.message || '(no message)'); }
+  if(!err && k && getKey() !== k) err = 'value did not persist after write';
+  refreshKeyStatus();
+  if(err){
+    let used = 0;
+    try{ for(let i=0;i<localStorage.length;i++){ const kk=localStorage.key(i); used += (kk||'').length + (localStorage.getItem(kk)||'').length; } }catch(_){}
+    toast('Save failed — ' + err + ' · storage≈' + Math.round(used/1024) + 'KB', true);
+    console.error('[CleanHead] key save failed:', err, '| localStorage chars:', used);
+  } else { toast(k ? 'API key saved ✓' : 'Key cleared'); closeSettings(); }
+});
+$('#clearKey')?.addEventListener('click', ()=>{
+  $('#oaiKey').value = '';
+  try{ localStorage.removeItem(KEY_LS); }catch(e){}
+  refreshKeyStatus();
+  toast('Key cleared');
+});
+
+/* ---- backup: export / import (manual sync between devices) ---- */
+function exportData(){
+  const payload = {
+    app:'cleanhead', version:1,
+    exportedAt:new Date().toISOString(),
+    data:state,
+    model:getModel(),
+    key:getKey()
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `cleanhead-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast('Backup exported');
+}
+function importData(file){
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    let obj;
+    try{ obj = JSON.parse(reader.result); }
+    catch(e){ toast('Invalid file — not valid JSON', true); return; }
+    if(!obj || obj.app!=='cleanhead' || !obj.data || !Array.isArray(obj.data.tasks)){
+      toast('Invalid file — not a CleanHead backup', true); return;
+    }
+    if(!confirm('Import this backup? It replaces your current tasks and settings on this device.')) return;
+    try{
+      state = obj.data;
+      save();
+      if(typeof obj.model==='string') localStorage.setItem(MODEL_LS, obj.model);
+      if(typeof obj.key==='string'){ if(obj.key) localStorage.setItem(KEY_LS, obj.key); else localStorage.removeItem(KEY_LS); }
+    }catch(e){ toast('Could not import backup', true); return; }
+    render();
+    $('#oaiKey').value   = getKey();
+    $('#oaiModel').value = getModel();
+    refreshKeyStatus();
+    toast('Backup imported');
+  };
+  reader.onerror = ()=> toast('Could not read file', true);
+  reader.readAsText(file);
+}
+$('#exportData')?.addEventListener('click', exportData);
+$('#importData')?.addEventListener('click', ()=> $('#importFile').click());
+$('#importFile')?.addEventListener('change', e=>{
+  const f = e.target.files && e.target.files[0];
+  if(f) importData(f);
+  e.target.value = '';
+});
+
+/* ================= CLOUD SYNC (Supabase) =================
+   localStorage = fast local cache · Supabase row = shared master copy.
+   save() pushes (debounced); login/boot pulls. Last-write-wins. */
+const SB = { session:null, pushTimer:null };
+
+function loadSession(){
+  try{ SB.session = JSON.parse(localStorage.getItem(SESSION_LS) || 'null'); }
+  catch(e){ SB.session = null; }
+}
+function storeSession(s){
+  SB.session = s;
+  try{ s ? localStorage.setItem(SESSION_LS, JSON.stringify(s)) : localStorage.removeItem(SESSION_LS); }catch(e){}
+}
+const loggedIn = ()=> !!(SB.session && SB.session.access_token);
+
+async function sbRefresh(){
+  if(!SB.session || !SB.session.refresh_token) return false;
+  try{
+    const r = await fetch(`${SB_URL}/auth/v1/token?grant_type=refresh_token`, {
+      method:'POST', headers:{ apikey:SB_ANON, 'Content-Type':'application/json' },
+      body: JSON.stringify({ refresh_token: SB.session.refresh_token })
+    });
+    if(!r.ok){ if(r.status>=400 && r.status<500){ storeSession(null); refreshSyncUI(); } return false; }
+    storeSession(await r.json());
+    return true;
+  }catch(e){ return false; }
+}
+
+/* fetch wrapper — auto-refreshes the token once on a 401 */
+async function sbFetch(path, opts={}, retry=true){
+  const headers = Object.assign({
+    apikey: SB_ANON,
+    'Content-Type':'application/json',
+    Authorization: `Bearer ${SB.session ? SB.session.access_token : SB_ANON}`
+  }, opts.headers || {});
+  const r = await fetch(`${SB_URL}${path}`, Object.assign({}, opts, { headers }));
+  if(r.status===401 && retry && SB.session){
+    if(await sbRefresh()) return sbFetch(path, opts, false);
+  }
+  return r;
+}
+
+async function authEmail(mode){
+  const email = ($('#syncEmail').value || '').trim();
+  const pass  = $('#syncPass').value || '';
+  if(!email || !pass){ toast('Enter email and password', true); return; }
+  const path = mode==='signup' ? '/auth/v1/signup' : '/auth/v1/token?grant_type=password';
+  try{
+    const r = await fetch(`${SB_URL}${path}`, {
+      method:'POST', headers:{ apikey:SB_ANON, 'Content-Type':'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await r.json();
+    if(!r.ok || !data.access_token){
+      toast(data.msg || data.error_description || 'Login failed', true);
+      return;
+    }
+    storeSession(data);
+    $('#syncPass').value = '';
+    refreshSyncUI();
+    toast(mode==='signup' ? 'Account created — syncing' : 'Logged in — syncing');
+    await cloudPull();
+  }catch(e){ toast('Could not reach the sync server', true); }
+}
+
+function logout(){
+  storeSession(null);
+  refreshSyncUI();
+  toast('Logged out — this device is now local-only');
+}
+
+async function cloudPull(){
+  if(!loggedIn()) return;
+  setSyncStatus('saving');
+  try{
+    const r = await sbFetch('/rest/v1/cleanhead?select=data');
+    if(!r.ok){ setSyncStatus('error'); return; }
+    const rows = await r.json();
+    if(rows.length && rows[0].data && Array.isArray(rows[0].data.tasks)){
+      state = rows[0].data;
+      try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+      render(); renderChart();
+      hydrateThumbs();
+      setSyncStatus('synced');
+    } else {
+      cloudPush(true); // cloud empty → seed it from this device
+    }
+  }catch(e){ setSyncStatus('error'); }
+}
+
+function schedulePush(){
+  if(!loggedIn()) return;
+  clearTimeout(SB.pushTimer);
+  SB.pushTimer = setTimeout(()=>cloudPush(), 800);
+}
+
+async function cloudPush(){
+  if(!loggedIn()) return;
+  const uid = SB.session.user && SB.session.user.id;
+  if(!uid) return;
+  setSyncStatus('saving');
+  try{
+    const r = await sbFetch('/rest/v1/cleanhead?on_conflict=user_id', {
+      method:'POST',
+      headers:{ Prefer:'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ user_id: uid, data: slimState(), updated_at: new Date().toISOString() })
+    });
+    setSyncStatus(r.ok ? 'synced' : 'error');
+  }catch(e){ setSyncStatus('error'); }
+}
+
+function setSyncStatus(kind){
+  const el = $('#syncStatus'); if(!el) return;
+  const map = {
+    synced:['ti-cloud','Synced'],
+    saving:['ti-loader-2','Saving…'],
+    error :['ti-cloud','Sync error — will retry']
+  };
+  const [icon,txt] = map[kind] || map.synced;
+  const email = (SB.session && SB.session.user) ? SB.session.user.email : '';
+  el.innerHTML = `<i class="ti ${icon}"></i><span>${txt}${email ? ' · '+esc(email) : ''}</span>`;
+}
+
+function refreshSyncUI(){
+  const inEl = $('#syncLoggedIn'), outEl = $('#syncLoggedOut');
+  if(!inEl || !outEl) return;
+  if(loggedIn()){ outEl.style.display='none'; inEl.style.display=''; setSyncStatus('synced'); }
+  else          { outEl.style.display='';     inEl.style.display='none'; }
+}
+
+$('#syncLogin')?.addEventListener('click', ()=>authEmail('login'));
+$('#syncSignup')?.addEventListener('click', ()=>authEmail('signup'));
+$('#syncLogout')?.addEventListener('click', logout);
+$('#syncPass')?.addEventListener('keydown', e=>{ if(e.key==='Enter') authEmail('login'); });
+
+/* ---- the call ---- */
+const EXTRACT_SYSTEM = String.raw`
+You are the task-extraction engine for CleanHead, a personal productivity app.
+
+The user will paste an unstructured, casual brain dump. It may be mixed Arabic/English, Egyptian Arabic, Franko Arabic, informal notes, incomplete thoughts, reminders, work items, ideas, waiting items, or personal goals.
+
+Your job:
+Extract the discrete actionable items and return ONLY valid JSON.
+
+Output format:
+{"tasks":[ ... ]}
+
+No prose.
+No markdown.
+No comments.
+No trailing commas.
+No extra keys outside "tasks".
+
+Each task object may use these fields:
+
+- title (string, required):
+  Rewrite the thought as a short, natural, flowing to-do phrase.
+  It must sound like a clean task a real person would write, not robotic keywords.
+  Example:
+  Raw: "lazem aroh ashtri haga le mama 3ashan eidha"
+  Good: "Buy mom a birthday gift"
+  Bad: "Buy gift mama birthday"
+  Capture the real intent in plain natural English.
+  Only use Arabic in Latin letters if the whole user input was Franko Arabic with zero English words, matching the user's style.
+  No trailing period.
+
+- cat (string, required):
+  One of "now", "soon", "idea".
+
+  now:
+  Use for urgent items, items clearly meant for today, immediate work, messages/calls that should happen now, or anything with words like today, دلوقتي, حالاً, asap, urgently, النهارده.
+
+  soon:
+  Use for upcoming or important tasks that are actionable but not clearly today.
+  Also use "soon" for any item blocked by another person.
+
+  idea:
+  Use for vague, half-formed, someday/maybe thoughts, personal goals/habits without a concrete next action, or exploratory ideas.
+
+- time (string or null):
+  A realistic effort estimate.
+  Use any explicit duration mentioned by the user first.
+  If no duration is given, estimate based on the task:
+  quick reply/message ≈ "5 min"
+  short call ≈ "15 min"
+  small check/review ≈ "10-20 min"
+  shopping/errand ≈ "30-60 min"
+  writing a short document/email/proposal section ≈ "45-60 min"
+  preparing quotation/BOQ/report/presentation ≈ "1-2 h"
+  coding/debugging/integration/design work ≈ "2 h" or more
+  multi-stage technical job ≈ "2-4 h" or "half day"
+  Only use null for vague ideas/goals with no clear next action, such as "sleep early", "lose weight", "learn more about AI".
+
+- waiting (string or null):
+  If the item is blocked on another person, company, client, supplier, approval, reply, payment, document, or decision:
+  set cat to "soon"
+  set waiting to a short phrase like "waiting on Mazen", "waiting on client approval", "waiting on supplier price".
+  If not waiting, use null.
+
+- vague (boolean, optional):
+  Use true only for an idea that clearly needs shaping before it can be executed.
+
+- note (string or null):
+  One short clarifying line ONLY if the user said something specific and useful beyond the title:
+  a reason, constraint, name, number, deadline, location, client, quantity, version, model, price, dependency, or special instruction.
+  Do not add generic filler.
+  If there is nothing genuinely extra, set note to null.
+
+- steps (array of strings, optional but strongly required for multi-step tasks):
+  Break the task into 2-4 concrete sub-steps whenever the task realistically needs more than one action to finish.
+
+  This is a strict rule:
+  Include steps for every task except genuinely one-shot actions.
+
+  A one-shot action is something like:
+  - reply to a message
+  - call someone
+  - send a single already-ready file
+  - pay one bill
+  - book one appointment
+  - check one simple fact
+  - buy one simple item
+
+  A multi-step task is anything involving preparation, review, comparison, writing, design, coding, technical setup, troubleshooting, quotation, BOQ, report, presentation, research, planning, coordination, installation, configuration, or delivery.
+
+  If you are unsure whether the task is one-shot or multi-step, include steps.
+
+  Steps must be:
+  - specific to the task
+  - practical
+  - short
+  - written as actions
+  - ordered logically
+  - not generic filler
+
+  Good examples:
+  Raw: "send the BQ to Ahmed"
+  steps: ["Review the BOQ items", "Update prices and quantities", "Export the final file", "Send it to Ahmed"]
+
+  Raw: "fix TTLock integration issue"
+  steps: ["Check the API error response", "Verify gateway and lock status", "Test the request payload", "Update the integration logic"]
+
+  Raw: "prepare presentation for client"
+  steps: ["Outline the main sections", "Add project visuals and scope", "Review pricing or technical notes", "Export and send the final deck"]
+
+  Raw: "redesign quotation template"
+  steps: ["Review the current quotation layout", "Create a cleaner visual structure", "Add formulas and required fields", "Test the template with sample items"]
+
+  Bad steps:
+  ["Do the task", "Make sure it is good"]
+  ["Think about it", "Finish it"]
+  ["Review", "Send"]
+  These are too generic.
+
+- icon (string, optional):
+  Choose the single best-fitting icon from the allowed Tabler icon values below.
+  Use the value verbatim with the ti- prefix.
+  If nothing fits, omit icon.
+
+Allowed icons:
+ti-activity, ti-alarm, ti-archive, ti-bell, ti-bolt, ti-book, ti-bookmark, ti-brand-whatsapp, ti-briefcase, ti-bug, ti-building, ti-building-estate, ti-building-skyscraper, ti-bulb, ti-calendar, ti-calendar-event, ti-camera, ti-car, ti-cash, ti-check, ti-checkbox, ti-checklist, ti-chevron-down, ti-circle, ti-circle-check, ti-circuit-resistor, ti-clipboard, ti-clipboard-list, ti-clock, ti-cloud, ti-code, ti-coffee, ti-cpu, ti-credit-card, ti-database, ti-device-desktop, ti-device-laptop, ti-dots, ti-eye, ti-file-description, ti-file-dollar, ti-file-invoice, ti-file-text, ti-files, ti-flag, ti-headphones, ti-home, ti-home-bolt, ti-hourglass, ti-hourglass-low, ti-inbox, ti-key, ti-link, ti-list-check, ti-loader-2, ti-lock, ti-mail, ti-mail-forward, ti-map-pin, ti-message, ti-message-2, ti-microphone, ti-network, ti-paint, ti-pencil, ti-phone, ti-photo, ti-pin, ti-plane, ti-player-play, ti-plug, ti-plug-connected, ti-plus, ti-point, ti-presentation, ti-receipt, ti-rocket, ti-route, ti-ruler, ti-ruler-measure, ti-send, ti-server, ti-settings, ti-shield, ti-shopping-cart, ti-signature, ti-sparkles, ti-speakerphone, ti-star, ti-target-arrow, ti-tool, ti-tools, ti-topology-star-3, ti-trash, ti-user, ti-users, ti-video, ti-wifi, ti-world, ti-x
+
+Task extraction rules:
+1. Extract only tasks that are clearly implied by the text.
+2. Do not invent tasks.
+3. Merge duplicates.
+4. Split separate actionable items into separate tasks — but ONLY when they are genuinely independent and could be done in any order, by different people, or at different times.
+5. If one sentence contains multiple unrelated actions, create multiple tasks.
+6. CRITICAL — recognize a single workflow described across several sentences. If the user is talking through one ongoing project or goal, and the sentences describe sequential stages of reaching that SAME outcome (understand → review → prepare → confirm → finalize), this is ONE task with steps, not several separate tasks. A strong signal: the sentences share the same subject/client/project and read like "first I need to do X, then Y, then Z" even if phrased loosely.
+   Example — raw input: "batkalem fi mawdoo3 system upgrade, 3ayez afham el client 3ayez eh, ashoof el existing system, a3mel presentation, atakad enhom fahmeen hanaamel eh, ba3deen el pricing"
+   WRONG: 5 separate tasks ("Understand client needs", "Review existing system", "Create presentation", "Confirm understanding", "Do pricing")
+   RIGHT: ONE task — title: "Scope the system upgrade for the client", steps: ["Understand what the client wants", "Review the existing system", "Prepare a presentation", "Confirm the client understands the proposed plan", "Work out the pricing"]
+7. Keep titles concise but natural.
+8. Prefer actionable verbs: Prepare, Send, Review, Call, Buy, Fix, Check, Update, Create, Design, Book, Pay, Compare, Install, Configure.
+9. For personal goals without a concrete next action, use cat "idea", time null, vague true.
+10. For waiting items, do not mark them "now"; use "soon" and fill waiting.
+11. Every task should include title, cat, time, waiting, and note.
+12. Include steps whenever the task needs more than one action. This should happen often.
+13. Omit steps only for truly one-shot tasks.
+14. Return JSON only.
+
+Before writing the final JSON, silently decide for each task:
+- Is it actionable?
+- Is it one-shot or multi-step?
+- Is it part of the same workflow as another item already extracted? If so, merge them into one task with steps instead of creating a new task.
+- Is it now, soon, idea, or waiting?
+- Does it need steps?
+Then output only the final JSON.
+`;
+
+async function callOpenAI(dump, key, model){
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+key },
+    body: JSON.stringify({
+      model: model || 'gpt-4o',
+      temperature: 0.2,
+      response_format: { type:'json_object' },
+      messages:[
+        { role:'system', content: EXTRACT_SYSTEM },
+        { role:'user',   content: dump }
+      ]
+    })
+  });
+  if(!res.ok){
+    let msg = 'OpenAI error '+res.status;
+    try{ const e = await res.json(); if(e.error?.message) msg = e.error.message; }catch(_){}
+    throw new Error(msg);
+  }
+  const data = await res.json();
+  const txt = data.choices?.[0]?.message?.content || '{}';
+  return JSON.parse(txt);
+}
+
+
+/* ================================================================
+   STEP 3 — DALL·E 2 thumbnails
+   Generates one cinematic image per extracted task.
+   Shimmer shows while generating; result stored as data-URL in
+   localStorage so it survives refresh.
+================================================================ */
+function dallePrompt(task) {
+  const category = task.waiting ? "waiting" : (task.cat || "soon");
+
+  const M = {
+    now: {
+      accent: "#ff4d6d",
+      palette: "a thin red/coral rim-light only",
+      mood: "urgent, sharp, high-energy, decisive",
+      light: "a single thin red rim-light tracing one edge of the subject"
+    },
+    soon: {
+      accent: "#ff9a3c",
+      palette: "a thin amber/bronze rim-light only",
+      mood: "focused, prepared, purposeful momentum",
+      light: "a single thin amber rim-light tracing one edge of the subject"
+    },
+    idea: {
+      accent: "#3ddc84",
+      palette: "a thin emerald/teal rim-light only",
+      mood: "curious, inventive, calm creative spark",
+      light: "a single thin emerald rim-light tracing one edge of the subject"
+    },
+    waiting: {
+      accent: "#60a5fa",
+      palette: "a thin blue/cyan rim-light only",
+      mood: "patient, suspended, calm but unresolved",
+      light: "a single thin blue rim-light tracing one edge of the subject"
+    }
+  }[category] || {
+    accent: "#8b5cf6",
+    palette: "a thin violet rim-light only",
+    mood: "balanced, calm, neutral",
+    light: "a single thin violet rim-light tracing one edge of the subject"
+  };
+
+  const title = String(task.title || "a productivity task").replace(/"/g, "'");
+  const note = task.note ? String(task.note).replace(/"/g, "'") : "";
+  // steps are stored as [{label, done}] in CleanHead's data model — extract .label
+  const steps = Array.isArray(task.steps) && task.steps.length
+    ? task.steps.slice(0, 4).map(s => String(s?.label ?? s ?? "").replace(/"/g, "'")).filter(Boolean).join("; ")
+    : "";
+
+  const contextBits = [
+    `Task concept: "${title}"`,
+    note ? `Useful context: "${note}"` : "",
+    steps ? `The image should subtly suggest this workflow: ${steps}` : ""
+  ].filter(Boolean).join(". ");
+
+  return `
+Create a premium dark productivity banner photograph/render for CleanHead, a modern task-management app.
+
+${contextBits}.
+
+FIRST, identify the literal, concrete subject of this task — the actual real-world object, place, document, or item it is about (e.g. "Finish villa Crestron config" → an actual villa exterior at dusk with lit windows; "Send quotation to Mazen" → an actual quotation/invoice document on a desk; "Buy mom a birthday gift" → an actual wrapped gift box). Depict THAT literal subject directly and specifically — do not invent a vague mood object or abstract metaphor instead of the real thing.
+
+Render mode — choose based on the subject:
+- If the subject is a real-world physical place, object, or item (a building, a room, a document, a product, a vehicle, food, a gift, furniture, hardware): render it as a realistic photograph — natural materials, real lighting, shot like genuine photography, believable and grounded, the way a real photo of that exact subject would look.
+- If the subject is abstract, digital, or conceptual (a software feature, an idea, a plan, a notification, a generic "idea" task with no concrete object): render it as a polished, clean 3D icon-style illustration — a glossy stylized object or scene that visually represents the concept, not realistic photography.
+- Either way, the scene must be specific to THIS task, never a generic placeholder.
+
+Composition:
+- The final image will be displayed as a small SQUARE thumbnail (1:1 ratio), center-cropped, so compose with the subject centered and filling the frame
+- Keep the subject centered within the middle 70% of the frame — avoid important details right at the very edges, since a small margin may be cropped
+- The subject should be presented as a clear, centered hero shot — square-friendly framing, not an extreme wide or tall composition
+- Cinematic depth, foreground/midground/background layers are welcome, but the core subject must dominate the center of the square
+- One single unified scene only
+- No split panels, no diptych, no collage, no side-by-side layout
+- No clutter; clean, expensive, intentional composition
+- Strong silhouette readable at small size, since this will display quite small on screen
+
+Visual style:
+- For physical subjects: realistic photography — natural textures, accurate materials, believable depth of field, like a real photo taken for a premium real-estate, product, or lifestyle shoot
+- For abstract/digital subjects: high-end 3D render or polished digital illustration, glossy and dimensional
+- Dark background matching a premium app theme, close to #0e0e1a, OR a naturally dark/dusk/evening real-world setting if the subject calls for it (e.g. a lit building at night)
+- Dramatic single-source lighting (golden-hour, lamp light, screen glow, or studio key light depending on subject)
+- Soft volumetric glow where it fits the scene naturally
+- Crisp edges on the main subject
+- Shallow depth of field
+- Premium, editorial-quality finish — the kind of image used in a high-end app or magazine, not a stock photo
+
+Color direction:
+- PRIORITY: the subject's own NATURAL, realistic colors must dominate the image. A villa at night should look genuinely blue-toned and warm-lit like a real night photo; a document should look like real paper tones; do not force a category color wash over the whole scene.
+- The category accent color (${M.accent}) should appear ONLY as ${M.light} — a small, thin, subtle glowing detail (a thin edge highlight, one small glowing light source, a faint reflection) that a viewer might notice on close inspection, NOT a dominant color cast over the image.
+- Do NOT tint the entire image, sky, walls, or background in the category color. The category color is a quiet accent detail, not the main palette.
+- The overall image should still read as dark and rich (use dusk, evening, low-key, or interior-lit lighting) — but rich because of natural, realistic lighting, not because of an artificial color overlay
+- Vivid and rich where it's natural to the scene, not grey, not muddy, not washed out
+- Keep contrast high and elegant
+
+Subject identification examples:
+- "Finish villa Crestron config" → exterior photo of a modern villa at dusk, warm lit windows, pool reflections
+- "Send quotation to Mazen" → a real quotation/invoice document with visible structure (no readable text), pen, desk surface
+- "Reply to client email" → a phone or laptop screen glowing in a dim room, notification-style light, no readable text
+- "Buy mom a birthday gift" → a wrapped gift box with ribbon, soft warm light
+- "Fix TTLock integration issue" → a real smart lock device, cables, a small server/gateway box, warm diagnostic LED glow
+- "New Sensibo driver feature" (idea) → a stylized glossy 3D icon representing a smart AC/climate concept — abstract glowing form, not literal photography since this is conceptual
+- "Lose weight" (vague idea) → a stylized minimal 3D icon-object suggesting fitness/health, not a literal photo since there is no concrete object
+
+Strict negative rules:
+- NO humans
+- NO people
+- NO human figures
+- NO faces
+- NO hands
+- NO body parts
+- NO silhouettes of people
+- NO mannequins
+- NO characters
+- NO reflections of people
+- NO text
+- NO letters
+- NO words
+- NO numbers
+- NO readable typography
+- NO logos
+- NO watermarks
+- NO UI screenshots
+- NO split panels
+- NO collage
+- NO messy random abstraction
+
+Final feel:
+A real, specific, premium photograph or polished render of this task's literal subject — never a generic mood graphic — that makes the task card feel richer, clearer, and more credible while staying dark, elegant, and minimal.
+`.trim();
+}
+
+async function generateThumb(task, key){
+  const res = await fetch('https://api.openai.com/v1/images/generations',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+    body:JSON.stringify({model:'gpt-image-1', prompt:dallePrompt(task), n:1, size:'1024x1024', quality:'low', output_format:'png'})
+  });
+  if(!res.ok){ const e=await res.json().catch(()=>({})); throw new Error(e.error?.message||'DALL·E '+res.status); }
+  const d = await res.json();
+  return 'data:image/png;base64,' + d.data[0].b64_json;
+}
+
+async function generateThumbnails(tasks){
+  const key = getKey();
+  if(!key){ toast('Add your OpenAI key in Settings to generate images', true); openSettings(); return; }
+  if(!tasks.length) return;
+
+  const prog    = $('#genProgress');
+  const msg     = $('#genProgressMsg');
+  const sub     = $('#genProgressSub');
+  const ico     = $('#genProgressIcon');
+  prog.classList.remove('error');
+  ico.className = 'ti ti-loader-2';
+  sub.textContent = 'DALL·E 2 · images auto-saved';
+  prog.classList.add('visible');
+
+  // mark all as loading → shimmers appear immediately
+  for(const t of tasks){
+    const task = state.tasks.find(x=>x.id===t.id);
+    if(task) task.thumbLoading = true;
+  }
+  render();
+
+  let done=0, lastErr='';
+  for(const t of tasks){
+    const task = state.tasks.find(x=>x.id===t.id);
+    if(!task) continue;
+    msg.textContent = `Image ${done+1} of ${tasks.length}`;
+    sub.textContent = task.title.slice(0,40) + (task.title.length>40?'…':'');
+    try{
+      task.thumb = await generateThumb(task, key);
+      done++;
+    } catch(err){
+      lastErr = err.message;
+      console.error('[CleanHead] DALL·E failed for:', task.title, '|', err.message);
+      task.thumbError = err.message; // store on task so UI can show retry
+    } finally{
+      delete task.thumbLoading;
+      save();
+      const el = document.getElementById('card-'+task.id);
+      if(el) el.outerHTML = taskCard(task);
+    }
+  }
+
+  const failed = tasks.length - done;
+  if(failed === 0){
+    prog.classList.remove('visible');
+    toast(`${done} image${done>1?'s':''} generated ✦`);
+  } else {
+    // stay visible in error state so user can read the reason
+    prog.classList.add('error');
+    ico.className = 'ti ti-alert-triangle';
+    msg.textContent = failed === tasks.length ? 'Image generation failed' : `${done} done · ${failed} failed`;
+    sub.textContent = lastErr || 'Check your OpenAI key & quota';
+  }
+}
+
+function addExtractedTasks(obj){
+  const items = Array.isArray(obj?.tasks) ? obj.tasks : [];
+  let n = 0;
+  const newTasks = [];
+  for(const it of items){
+    if(!it || !it.title) continue;
+    const cat = ['now','soon','idea'].includes(it.cat) ? it.cat : 'soon';
+    const task = {
+      id: 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+      cat,
+      title: String(it.title).slice(0,140),
+      icon: (it.icon && ALLOWED_ICONS.has(it.icon)) ? it.icon : ICON_DEFAULT[cat]
+    };
+    if(it.time)    task.time = String(it.time);
+    if(it.waiting) task.waiting = String(it.waiting);
+    if(it.note)    task.note = String(it.note);
+    if(it.vague)   task.vague = true;
+    if(Array.isArray(it.steps) && it.steps.length){
+      task.steps = it.steps.slice(0,4)
+        .map(s => ({ label:String(s?.label ?? s ?? '').trim(), done:false }))
+        .filter(s => s.label);
+    }
+    state.tasks.push(task);
+    newTasks.push(task);
+    n++;
+  }
+  if(n){ save(); render(); }
+  return { count:n, tasks: newTasks };
+}
+
+async function processBrainDump(){
+  const ta = $('#dumpText');
+  const dump = (ta?.value || '').trim();
+  if(!dump){ toast('Type a brain dump first'); ta?.focus(); return; }
+
+  const key = getKey();
+  if(!key){ toast('Add your OpenAI key in Settings first'); openSettings(); return; }
+
+  const btn = $('#processBtn');
+  const restore = btn.innerHTML;
+  btn.classList.add('loading');
+  btn.innerHTML = '<i class="ti ti-loader-2"></i><span>Processing…</span>';
+
+  try{
+    const obj = await callOpenAI(dump, key, getModel());
+    const result = addExtractedTasks(obj);
+    const n = result.count;
+    if(n > 0){
+      ta.value = '';
+      switchPage('dashboard');
+      toast(`Captured ${n} task${n>1?'s':''} — generating images…`);
+      generateThumbnails(result.tasks); // fire-and-forget; shimmers show progress
+    } else {
+      toast('Nothing to extract — try adding more detail');
+    }
+  }catch(err){
+    console.error(err);
+    toast(err.message || 'Could not reach OpenAI');
+  }finally{
+    btn.classList.remove('loading');
+    btn.innerHTML = restore;
+  }
+}
+
+$('#processBtn')?.addEventListener('click', processBrainDump);
+/* Ctrl/Cmd+Enter inside the dump box also processes */
+$('#dumpText')?.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key==='Enter') processBrainDump();
+});
+
+$('#genDismiss')?.addEventListener('click', ()=>{
+  $('#genProgress').classList.remove('visible','error');
+});
+
+/* ---------- boot ---------- */
+loadSession();
+load();
+save();            // migrate: rewrite localStorage slim — frees space if it was full of base64 images, and copies any images into IndexedDB
+render(); renderChart();
+hydrateThumbs();   // restore thumbnails from IndexedDB after a reload
+refreshSyncUI();
+if(loggedIn()) cloudPull(); // logged-in device: pull the latest from the cloud on open
+</script>
+<div class="gen-progress" id="genProgress"><i class="ti ti-loader-2" id="genProgressIcon"></i><div class="gen-progress-text"><div id="genProgressMsg">Generating…</div><div class="gen-progress-label" id="genProgressSub">DALL·E 2 · images auto-saved</div></div><button class="gen-dismiss" id="genDismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button></div>
+</body>
+</html>
