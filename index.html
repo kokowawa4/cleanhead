@@ -835,10 +835,14 @@ const THUMB_TILE = { now:'tile-now', soon:'tile-soon', idea:'tile-idea', done:'t
 /* ---------- state ---------- */
 let state = structuredClone(SEED); // safe default — prevents "state is undefined" if load() crashes
 function load(){
+  // When logged in, the cloud is the source of truth — never fall back to the
+  // demo SEED (it could get pushed up and clobber real cloud data). Start empty
+  // and let cloudPull() fill it. SEED is only for the logged-out demo.
+  const empty = { tasks:[], week:structuredClone(SEED.week) };
   try{
     const raw = localStorage.getItem(LS_KEY);
-    state = raw ? JSON.parse(raw) : structuredClone(SEED);
-  }catch(e){ state = structuredClone(SEED); }
+    state = raw ? JSON.parse(raw) : (loggedIn() ? empty : structuredClone(SEED));
+  }catch(e){ state = loggedIn() ? empty : structuredClone(SEED); }
 }
 /* ---------- thumbnails live in IndexedDB, not localStorage ----------
    AI thumbnails are ~1-2 MB base64 each; keeping them in localStorage blows
@@ -870,12 +874,12 @@ async function hydrateThumbs(){
   if(changed) render();
 }
 
-function save(){
+function saveLocal(){ // local only — no cloud push (used at boot / migration)
   try{ localStorage.setItem(LS_KEY, JSON.stringify(slimState())); }
-  catch(e){ console.warn('save failed', e); }
+  catch(e){ console.warn('saveLocal failed', e); }
   persistThumbs();
-  schedulePush();
 }
+function save(){ saveLocal(); schedulePush(); } // user edits: persist locally AND push to cloud
 
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
@@ -1324,12 +1328,14 @@ async function cloudPull(){
     const rows = await r.json();
     if(rows.length && rows[0].data && Array.isArray(rows[0].data.tasks)){
       state = rows[0].data;
-      try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){}
+      saveLocal();
       render(); renderChart();
       hydrateThumbs();
       setSyncStatus('synced');
     } else {
-      cloudPush(true); // cloud empty → seed it from this device
+      // cloud row is empty/new — only seed it if THIS device actually has real tasks
+      if((state.tasks||[]).length) cloudPush();
+      else setSyncStatus('synced');
     }
   }catch(e){ setSyncStatus('error'); }
 }
@@ -1833,11 +1839,11 @@ $('#genDismiss')?.addEventListener('click', ()=>{
 /* ---------- boot ---------- */
 loadSession();
 load();
-save();            // migrate: rewrite localStorage slim — frees space if it was full of base64 images, and copies any images into IndexedDB
 render(); renderChart();
 hydrateThumbs();   // restore thumbnails from IndexedDB after a reload
 refreshSyncUI();
-if(loggedIn()) cloudPull(); // logged-in device: pull the latest from the cloud on open
+if(loggedIn()) cloudPull(); // cloud is the source of truth on open — pull, NEVER push at boot
+else           saveLocal(); // local-only device: just slim-migrate localStorage (no cloud push)
 </script>
 <div class="gen-progress" id="genProgress"><i class="ti ti-loader-2" id="genProgressIcon"></i><div class="gen-progress-text"><div id="genProgressMsg">Generating…</div><div class="gen-progress-label" id="genProgressSub">DALL·E 2 · images auto-saved</div></div><button class="gen-dismiss" id="genDismiss" aria-label="Dismiss"><i class="ti ti-x"></i></button></div>
 </body>
