@@ -509,6 +509,18 @@ select.field{cursor:pointer}
    password manager from autofilling the cloud-login password into it */
 .field-secret{-webkit-text-security:disc}
 .field-secret.show{-webkit-text-security:none}
+/* ---- edit task modal ---- */
+textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-height:1.5}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.estep{display:flex;align-items:center;gap:8px;margin-top:8px}
+.estep input[type=checkbox]{width:17px;height:17px;flex:none;accent-color:var(--idea);cursor:pointer}
+.estep .field{margin:0;flex:1}
+.estep .estep-del{flex:none;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:rgba(255,255,255,.035);color:var(--muted);cursor:pointer;transition:all .18s ease}
+.estep .estep-del:hover{color:#ff8aa0;border-color:rgba(255,77,109,.5);background:rgba(255,77,109,.10)}
+.act-addstep{margin-top:10px}
+.act-edit:hover{color:#cfc6ff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.12);box-shadow:0 0 16px -6px var(--accent)}
+.done-actions{display:flex;gap:6px;margin-left:auto}
+.done-actions .act{padding:6px 9px}
 
 /* processing state on the Process button */
 .btn-dump.loading{opacity:.85;pointer-events:none}
@@ -773,6 +785,51 @@ select.field{cursor:pointer}
   </div>
 </div>
 
+<!-- ============ EDIT TASK MODAL ============ -->
+<div class="modal-overlay" id="editModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Edit task">
+    <div class="modal-head">
+      <div class="tile tile-accent"><i class="ti ti-pencil"></i></div>
+      <div>
+        <div class="modal-title">Edit task</div>
+        <div class="modal-sub">Change the text, category, timing, and steps.</div>
+      </div>
+      <button type="button" class="modal-x" id="closeEdit" aria-label="Close"><i class="ti ti-x"></i></button>
+    </div>
+
+    <label class="field-label" for="editTitle">Title</label>
+    <input id="editTitle" class="field" type="text" placeholder="Task title" autocomplete="off" spellcheck="false">
+
+    <div class="edit-grid">
+      <div>
+        <label class="field-label" for="editCat">Category</label>
+        <select id="editCat" class="field">
+          <option value="now">Do Now</option>
+          <option value="soon">Do Soon</option>
+          <option value="idea">Ideas</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="editTime">Time estimate</label>
+        <input id="editTime" class="field" type="text" placeholder="e.g. 30 min" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+
+    <label class="field-label" for="editNote">Details / note</label>
+    <textarea id="editNote" class="field" rows="2" placeholder="Optional details…" spellcheck="false"></textarea>
+
+    <label class="field-label">Steps</label>
+    <div id="editSteps"></div>
+    <button type="button" class="act act-addstep" id="addStep"><i class="ti ti-plus"></i>Add step</button>
+
+    <div class="modal-actions">
+      <button type="button" class="act act-del" id="deleteFromEdit"><i class="ti ti-trash"></i>Delete</button>
+      <button type="button" class="btn-dump" id="saveEdit"><i class="ti ti-check"></i><span>Save</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -976,6 +1033,7 @@ function taskCard(t){
     <div class="card-actions">
       <button class="act act-start" data-start="${t.id}"><i class="ti ti-player-play"></i>Start</button>
       <button class="act act-done" data-done="${t.id}"><i class="ti ti-check"></i>Done</button>
+      <button class="act act-edit" data-edit="${t.id}" title="Edit task" aria-label="Edit task"><i class="ti ti-pencil"></i></button>
       ${!t.thumb && !t.thumbLoading ? `<button class="act act-gen" data-gen="${t.id}" title="Generate AI image"><i class="ti ti-sparkles"></i></button>` : ''}
       <button class="act act-del" data-del="${t.id}" aria-label="Delete task"><i class="ti ti-trash"></i></button>
     </div>
@@ -990,6 +1048,10 @@ function doneCard(t){
       <div class="card-main">
         <div class="card-title">${esc(t.title)}</div>
         <div class="done-sub">Completed</div>
+      </div>
+      <div class="done-actions">
+        <button class="act act-edit" data-edit="${t.id}" title="Edit task" aria-label="Edit task"><i class="ti ti-pencil"></i></button>
+        <button class="act act-del" data-del="${t.id}" title="Delete task" aria-label="Delete task"><i class="ti ti-trash"></i></button>
       </div>
       <div class="tile thumb ${THUMB_TILE.done}"><i class="ti ${t.icon||'ti-circle-check'}"></i></div>
     </div>
@@ -1009,19 +1071,37 @@ function smoothPath(pts){
   return d;
 }
 
+/* Build the last-7-days series from real task activity (completed + ideas per day) */
+function computeWeek(){
+  const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const days = [], completed = [], ideas = [];
+  const dayStart = d => { const x=new Date(d); x.setHours(0,0,0,0); return x.getTime(); };
+  const today0 = dayStart(Date.now());
+  const tasks = state.tasks || [];
+  for(let k=6;k>=0;k--){
+    const start = today0 - k*86400000, end = start + 86400000;
+    const d = new Date(start);
+    days.push(DOW[d.getDay()]);
+    completed.push(tasks.filter(t=> typeof t.completedAt==='number' && t.completedAt>=start && t.completedAt<end).length);
+    ideas.push(tasks.filter(t=> t.cat==='idea' && typeof t.createdAt==='number' && t.createdAt>=start && t.createdAt<end).length);
+  }
+  return { days, completed, ideas };
+}
+
 function renderChart(){
   const W=1100, H=290, padL=46, padR=30, padT=36, padB=44;
-  const {days, completed, ideas} = state.week;
-  const maxY = 15, n = days.length;
+  const {days, completed, ideas} = computeWeek();
+  const peak = Math.max(...completed, ...ideas, 0);
+  const maxY = Math.max(4, Math.ceil(peak/4)*4), n = days.length; // clean multiple of 4 → integer gridlines
   const x = i => padL + i*(W-padL-padR)/(n-1);
   const y = v => padT + (1 - v/maxY)*(H-padT-padB);
 
   const cPts = completed.map((v,i)=>[x(i), +y(v).toFixed(1)]);
   const iPts = ideas.map((v,i)=>[x(i), +y(v).toFixed(1)]);
 
-  const grid = [0,5,10,15].map(v=>`
+  const grid = [0,1,2,3,4].map(k=>{ const v=maxY*k/4; return `
     <line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-    <text x="${padL-10}" y="${y(v)+4}" fill="#7070a0" font-size="12" text-anchor="end" font-family="Inter,sans-serif">${v}</text>`).join('');
+    <text x="${padL-10}" y="${y(v)+4}" fill="#7070a0" font-size="12" text-anchor="end" font-family="Inter,sans-serif">${v}</text>`; }).join('');
 
   const labels = days.map((d,i)=>`
     <text x="${x(i)}" y="${H-14}" fill="#7070a0" font-size="12.5" text-anchor="middle" font-family="Inter,sans-serif">${d}</text>`).join('');
@@ -1029,15 +1109,15 @@ function renderChart(){
   const dots = (pts,color)=>pts.map(p=>`
     <circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${color}" stroke="#0e0e1a" stroke-width="2" filter="url(#glow)"/>`).join('');
 
-  // floating value badges (peak completed + Sat ideas)
+  // floating value badges on the peak day of each line (hidden when the peak is 0)
   const peakI = completed.indexOf(Math.max(...completed));
-  const satI = 5;
-  const badge = (cx, cy, big, small, fill, stroke) => `
+  const ideaI = ideas.indexOf(Math.max(...ideas));
+  const badge = (cx, cy, big, small, fill, stroke) => big>0 ? `
     <g transform="translate(${cx-34},${cy-58})">
       <rect width="68" height="46" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="1"/>
       <text x="34" y="20" fill="#fff" font-size="16" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">${big}</text>
       <text x="34" y="36" fill="rgba(255,255,255,.75)" font-size="10.5" text-anchor="middle" font-family="Inter,sans-serif">${small}</text>
-    </g>`;
+    </g>` : '';
 
   $('#chart').innerHTML = `
   <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly progress chart">
@@ -1058,7 +1138,7 @@ function renderChart(){
     ${dots(iPts,'#3ddc84')}
     ${dots(cPts,'#7c6aff')}
     ${badge(x(peakI), y(completed[peakI]), completed[peakI], 'Completed', 'rgba(124,106,255,.32)', 'rgba(124,106,255,.7)')}
-    ${badge(x(satI), y(ideas[satI]), ideas[satI], 'Ideas', 'rgba(61,220,132,.22)', 'rgba(61,220,132,.6)')}
+    ${badge(x(ideaI), y(ideas[ideaI]), ideas[ideaI], 'Ideas', 'rgba(61,220,132,.22)', 'rgba(61,220,132,.6)')}
     ${labels}
   </svg>`;
 }
@@ -1071,13 +1151,13 @@ document.addEventListener('click', e=>{
   const del = e.target.closest('[data-del]');
   if(del){
     state.tasks = state.tasks.filter(t=>t.id!==del.dataset.del);
-    save(); render(); toast('Task deleted');
+    save(); render(); renderChart(); toast('Task deleted');
     return;
   }
   const done = e.target.closest('[data-done]');
   if(done){
     const t = state.tasks.find(t=>t.id===done.dataset.done);
-    if(t){ t.cat='done'; delete t.preview; save(); render(); toast(`Nice — “${t.title}” completed ✓`); }
+    if(t){ t.cat='done'; t.completedAt=Date.now(); delete t.preview; save(); render(); renderChart(); toast(`Nice — “${t.title}” completed ✓`); }
     return;
   }
   const start = e.target.closest('[data-start]');
@@ -1096,6 +1176,8 @@ document.addEventListener('click', e=>{
     if(t) generateThumbnails([t]);
     return;
   }
+  const edit = e.target.closest('[data-edit]');
+  if(edit){ openEditor(edit.dataset.edit); return; }
 });
 
 document.addEventListener('change', e=>{
@@ -1116,6 +1198,75 @@ document.addEventListener('change', e=>{
     }
   }
 });
+
+/* ---------- edit task modal ---------- */
+let editingId = null;
+
+function stepRow(label='', done=false){
+  const wrap = document.createElement('div');
+  wrap.className = 'estep';
+  wrap.innerHTML = `
+    <input type="checkbox" ${done?'checked':''} aria-label="Step done">
+    <input type="text" class="field" value="${esc(label)}" placeholder="Step…">
+    <button type="button" class="estep-del" aria-label="Remove step"><i class="ti ti-x"></i></button>`;
+  wrap.querySelector('.estep-del').addEventListener('click', ()=> wrap.remove());
+  return wrap;
+}
+
+function openEditor(id){
+  const t = state.tasks.find(x=>x.id===id);
+  if(!t) return;
+  editingId = id;
+  $('#editTitle').value = t.title || '';
+  $('#editCat').value   = ['now','soon','idea','done'].includes(t.cat) ? t.cat : 'now';
+  $('#editTime').value  = t.time || '';
+  $('#editNote').value  = t.note || '';
+  const box = $('#editSteps'); box.innerHTML = '';
+  (t.steps||[]).forEach(s=> box.appendChild(stepRow(s.label, s.done)));
+  const m = $('#editModal');
+  m.classList.add('open'); m.setAttribute('aria-hidden','false');
+  setTimeout(()=>$('#editTitle').focus(), 60);
+}
+
+function closeEditor(){
+  const m = $('#editModal');
+  m.classList.remove('open'); m.setAttribute('aria-hidden','true');
+  editingId = null;
+}
+
+function saveEditor(){
+  const t = state.tasks.find(x=>x.id===editingId);
+  if(!t){ closeEditor(); return; }
+  const title = $('#editTitle').value.trim();
+  if(!title){ toast('Title can’t be empty', true); return; }
+  t.title = title;
+  t.cat   = $('#editCat').value;
+  const time = $('#editTime').value.trim();
+  if(time) t.time = time; else delete t.time;
+  const note = $('#editNote').value.trim();
+  if(note) t.note = note; else delete t.note;
+  const steps = [];
+  $('#editSteps').querySelectorAll('.estep').forEach(row=>{
+    const label = row.querySelector('input[type=text]').value.trim();
+    if(label) steps.push({ label, done: row.querySelector('input[type=checkbox]').checked });
+  });
+  if(steps.length) t.steps = steps; else delete t.steps;
+  if(t.cat==='done' && !t.completedAt) t.completedAt = Date.now(); // count it on the graph
+  save(); render(); renderChart();
+  closeEditor();
+  toast('Task updated ✓');
+}
+
+$('#addStep')?.addEventListener('click', ()=> $('#editSteps').appendChild(stepRow()));
+$('#saveEdit')?.addEventListener('click', saveEditor);
+$('#closeEdit')?.addEventListener('click', closeEditor);
+$('#deleteFromEdit')?.addEventListener('click', ()=>{
+  if(!editingId) return closeEditor();
+  state.tasks = state.tasks.filter(x=>x.id!==editingId);
+  save(); render(); renderChart(); closeEditor(); toast('Task deleted');
+});
+$('#editModal')?.addEventListener('click', e=>{ if(e.target.id==='editModal') closeEditor(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEditor(); });
 
 /* ---------- page switching ---------- */
 function switchPage(name){
@@ -1772,6 +1923,7 @@ function addExtractedTasks(obj){
     const task = {
       id: 'g' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
       cat,
+      createdAt: Date.now(),
       title: String(it.title).slice(0,140),
       icon: (it.icon && ALLOWED_ICONS.has(it.icon)) ? it.icon : ICON_DEFAULT[cat]
     };
@@ -1788,7 +1940,7 @@ function addExtractedTasks(obj){
     newTasks.push(task);
     n++;
   }
-  if(n){ save(); render(); }
+  if(n){ save(); render(); renderChart(); }
   return { count:n, tasks: newTasks };
 }
 
