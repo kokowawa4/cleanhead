@@ -102,6 +102,7 @@ body::before{
 }
 .brand{display:flex;align-items:center;gap:13px;min-width:0}
 .brand .tile{width:44px;height:44px;font-family:var(--serif);font-size:25px;font-style:italic;font-weight:600;padding-bottom:2px}
+.brand-logo{height:42px;width:auto;display:block;flex:none;filter:drop-shadow(0 2px 7px rgba(0,0,0,.45))}
 .brand-name{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
 .brand-by{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:7px;white-space:nowrap}
 .tabs{display:flex;gap:6px;margin:0 auto}
@@ -598,7 +599,7 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
 <!-- ============ TOP NAV ============ -->
 <header class="topbar">
   <div class="brand">
-    <div class="tile tile-accent" aria-hidden="true">e</div>
+    <img class="brand-logo" src="assets/logo.png" alt="HzM" onerror="this.style.display='none'">
     <div class="brand-name">CleanHead</div>
     <div class="brand-by">by HzM</div>
   </div>
