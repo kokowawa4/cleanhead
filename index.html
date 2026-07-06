@@ -436,8 +436,9 @@ body::before{
 .focus-presets .preset:hover{color:var(--text);border-color:rgba(124,106,255,.4)}
 .focus-presets .preset.active{color:#fff;border-color:rgba(124,106,255,.6);background:rgba(124,106,255,.18)}
 .focus-controls{display:flex;gap:12px;justify-content:center;align-items:stretch;margin-top:20px}
-.focus-controls .btn-dump,.focus-controls .act{min-height:46px;display:inline-flex;align-items:center;justify-content:center}
-.focus-controls .act{padding:0 20px;font-size:13.5px}
+.focus-controls .btn-dump,.focus-controls .act{min-height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px}
+.focus-controls .btn-dump{padding:0 22px}
+.focus-controls .act{padding:0 22px;font-size:13.5px}
 .focus-task{
   display:inline-flex;align-items:center;gap:10px;margin-top:10px;
   font-size:14px;color:var(--muted);
@@ -480,8 +481,6 @@ button:focus-visible, .chip-steps:focus-visible{outline:2px solid var(--accent);
 @media (max-width:680px){
   .stats,.board{grid-template-columns:1fr}
   .stat-num{font-size:38px}
-  .btn-dump span{display:none}
-  .btn-dump{padding:10px 13px}
 }
 
 /* ============ SETTINGS MODAL (step 2) ============ */
