@@ -435,8 +435,9 @@ body::before{
 }
 .focus-presets .preset:hover{color:var(--text);border-color:rgba(124,106,255,.4)}
 .focus-presets .preset.active{color:#fff;border-color:rgba(124,106,255,.6);background:rgba(124,106,255,.18)}
-.focus-controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:20px}
-.focus-controls .act{padding:11px 18px;font-size:13.5px}
+.focus-controls{display:flex;gap:12px;justify-content:center;align-items:stretch;margin-top:20px}
+.focus-controls .btn-dump,.focus-controls .act{min-height:46px;display:inline-flex;align-items:center;justify-content:center}
+.focus-controls .act{padding:0 20px;font-size:13.5px}
 .focus-task{
   display:inline-flex;align-items:center;gap:10px;margin-top:10px;
   font-size:14px;color:var(--muted);
@@ -550,6 +551,18 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
 .mic-btn.busy{opacity:.65;cursor:default}
 .mic-btn.busy i{animation:spin .7s linear infinite}
 @keyframes micpulse{0%{box-shadow:0 0 0 0 rgba(255,77,109,.5)}70%{box-shadow:0 0 0 12px rgba(255,77,109,0)}100%{box-shadow:0 0 0 0 rgba(255,77,109,0)}}
+/* ---- personal / work scope: filter pills + card tags + edit control ---- */
+.scope-filter{display:flex;gap:6px}
+.scope-pill{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:var(--sans);font-size:12.5px;font-weight:600;color:var(--muted);padding:8px 13px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.035);opacity:.5;transition:all .18s ease}
+.scope-pill i{font-size:15px}
+.scope-pill:hover{color:var(--text)}
+.scope-pill.active{opacity:1;color:#fff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.16)}
+.chip-scope{text-transform:capitalize}
+.scope-seg{display:flex;gap:8px;margin-top:2px}
+.scope-seg button{flex:1;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);padding:9px 10px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.035);transition:all .18s ease}
+.scope-seg button:hover{color:var(--text)}
+.scope-seg button.active{color:#fff;border-color:rgba(124,106,255,.55);background:rgba(124,106,255,.18)}
+@media (max-width:680px){.scope-pill span{display:none}.scope-pill{padding:8px 10px}}
 
 /* processing state on the Process button */
 .btn-dump.loading{opacity:.85;pointer-events:none}
@@ -630,6 +643,10 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
   </nav>
 
   <div class="top-actions">
+    <div class="scope-filter" id="scopeFilter" title="Show Personal / Work tasks">
+      <button type="button" class="scope-pill active" data-scope="personal"><i class="ti ti-user"></i><span>Personal</span></button>
+      <button type="button" class="scope-pill active" data-scope="work"><i class="ti ti-briefcase"></i><span>Work</span></button>
+    </div>
     <button class="icon-btn" aria-label="Settings" id="settingsBtn"><i class="ti ti-settings"></i></button>
   </div>
 </header>
@@ -856,6 +873,13 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     <label class="field-label" for="editNote">Details / note</label>
     <textarea id="editNote" class="field" rows="2" placeholder="Optional details…" spellcheck="false"></textarea>
 
+    <label class="field-label">Type</label>
+    <div class="scope-seg" id="editScope">
+      <button type="button" data-scope="">None</button>
+      <button type="button" data-scope="personal"><i class="ti ti-user"></i> Personal</button>
+      <button type="button" data-scope="work"><i class="ti ti-briefcase"></i> Work</button>
+    </div>
+
     <label class="field-label">Steps</label>
     <div id="editSteps"></div>
     <button type="button" class="act act-addstep" id="addStep"><i class="ti ti-plus"></i>Add step</button>
@@ -884,16 +908,22 @@ const SB_URL     = 'https://gpgrslfwlbzuxpsdzazs.supabase.co';
 const SB_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZ3JzbGZ3bGJ6dXhwc2R6YXpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5NjUxODgsImV4cCI6MjA5NzU0MTE4OH0.O7nr5OWD9o6NDKyU_eJdJdggOkE2zldvFW_wRyccGuQ';
 const SESSION_LS = 'cleanhead_session';
 
+/* ---- personal/work filter (device-local preference) ---- */
+const SCOPE_LS = 'cleanhead_scope_filter';
+let scopeFilter = { personal:true, work:true };
+function loadScopeFilter(){ try{ const s=JSON.parse(localStorage.getItem(SCOPE_LS)||'null'); if(s){ scopeFilter.personal=s.personal!==false; scopeFilter.work=s.work!==false; } }catch(e){} }
+function saveScopeFilter(){ try{ localStorage.setItem(SCOPE_LS, JSON.stringify(scopeFilter)); }catch(e){} }
+
 const SEED = {
   tasks: [
-    { id:'t1', cat:'now',  title:'Write Black Arrow proposal', time:'60 min', icon:'ti-file-text',
+    { id:'t1', cat:'now',  title:'Write Black Arrow proposal', time:'60 min', icon:'ti-file-text', scope:'work',
       preview:true, previewIcon:'ti-signature',
       steps:[
         {label:'Outline scope & system zones', done:true},
         {label:'Price BQ line items', done:false},
         {label:'Export PDF & send to client', done:false}
       ]},
-    { id:'t2', cat:'now',  title:'Reply to client email', time:'5 min', icon:'ti-mail' },
+    { id:'t2', cat:'now',  title:'Reply to client email', time:'5 min', icon:'ti-mail', scope:'work' },
 
     { id:'t3', cat:'soon', title:'Finish villa Crestron config', time:'2 h', icon:'ti-home-bolt',
       preview:true, previewIcon:'ti-building-estate',
@@ -991,8 +1021,9 @@ function toast(msg, isError=false){
 
 /* ---------- render ---------- */
 function render(){
-  // stats
-  const by = c => state.tasks.filter(t=>t.cat===c);
+  // stats — respect the Personal/Work filter (untagged tasks always show)
+  const inScope = t => !t.scope || scopeFilter[t.scope] !== false;
+  const by = c => state.tasks.filter(t=>t.cat===c && inScope(t));
   $('#count-now').textContent  = by('now').length;
   $('#count-soon').textContent = by('soon').length;
   $('#count-idea').textContent = by('idea').length;
@@ -1026,6 +1057,7 @@ function render(){
 
 function taskCard(t){
   const meta = [];
+  if(t.scope)   meta.push(`<span class="chip chip-scope"><i class="ti ${t.scope==='work'?'ti-briefcase':'ti-user'}"></i>${esc(t.scope)}</span>`);
   if(t.time)    meta.push(`<span class="chip chip-time"><i class="ti ti-clock"></i>${esc(t.time)}</span>`);
   if(t.waiting) meta.push(`<span class="chip chip-wait"><i class="ti ti-hourglass-low"></i>${esc(t.waiting)}</span>`);
   if(t.vague)   meta.push(`<span class="chip chip-vague"><i class="ti ti-cloud"></i>vague — needs shaping</span>`);
@@ -1258,6 +1290,8 @@ function openEditor(id){
   $('#editCat').value   = ['now','soon','idea','done'].includes(t.cat) ? t.cat : 'now';
   $('#editTime').value  = t.time || '';
   $('#editNote').value  = t.note || '';
+  const sc = ['personal','work'].includes(t.scope) ? t.scope : '';
+  $('#editScope').querySelectorAll('button').forEach(x=>x.classList.toggle('active', x.dataset.scope===sc));
   const box = $('#editSteps'); box.innerHTML = '';
   (t.steps||[]).forEach(s=> box.appendChild(stepRow(s.label, s.done)));
   const m = $('#editModal');
@@ -1288,6 +1322,9 @@ function saveEditor(){
     if(label) steps.push({ label, done: row.querySelector('input[type=checkbox]').checked });
   });
   if(steps.length) t.steps = steps; else delete t.steps;
+  const scBtn = $('#editScope').querySelector('button.active');
+  const sc = scBtn ? scBtn.dataset.scope : '';
+  if(sc) t.scope = sc; else delete t.scope;
   if(t.cat==='done' && !t.completedAt) t.completedAt = Date.now(); // count it on the graph
   save(); render(); renderChart();
   closeEditor();
@@ -1303,7 +1340,16 @@ $('#deleteFromEdit')?.addEventListener('click', ()=>{
   save(); render(); renderChart(); closeEditor(); toast('Task deleted');
 });
 $('#editModal')?.addEventListener('click', e=>{ if(e.target.id==='editModal') closeEditor(); });
+$('#editScope')?.addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; $('#editScope').querySelectorAll('button').forEach(x=>x.classList.toggle('active', x===b)); });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeEditor(); });
+
+/* ---- personal/work filter pills ---- */
+function refreshScopePills(){ document.querySelectorAll('#scopeFilter .scope-pill').forEach(b=>b.classList.toggle('active', scopeFilter[b.dataset.scope]!==false)); }
+$('#scopeFilter')?.addEventListener('click', e=>{
+  const b=e.target.closest('.scope-pill'); if(!b) return;
+  const s=b.dataset.scope; scopeFilter[s]=!scopeFilter[s];
+  saveScopeFilter(); refreshScopePills(); render();
+});
 
 /* ---------- page switching ---------- */
 function switchPage(name){
@@ -1640,6 +1686,12 @@ Each task object may use these fields:
 - vague (boolean, optional):
   Use true only for an idea that clearly needs shaping before it can be executed.
 
+- scope (string or null):
+  Classify the task as "work" or "personal".
+  work: job, business, clients, quotations, BOQ, meetings, technical/AV/Crestron/integration/programming, suppliers, projects, anything career-related.
+  personal: home, family, health, errands, shopping, friends, personal goals/habits, self-care, anything outside the job.
+  If it is genuinely ambiguous, omit it (null).
+
 - note (string or null):
   One short clarifying line ONLY if the user said something specific and useful beyond the title:
   a reason, constraint, name, number, deadline, location, client, quantity, version, model, price, dependency, or special instruction.
@@ -1968,6 +2020,7 @@ function addExtractedTasks(obj){
     if(it.waiting) task.waiting = String(it.waiting);
     if(it.note)    task.note = String(it.note);
     if(it.vague)   task.vague = true;
+    if(it.scope==='personal' || it.scope==='work') task.scope = it.scope;
     if(Array.isArray(it.steps) && it.steps.length){
       task.steps = it.steps.slice(0,4)
         .map(s => ({ label:String(s?.label ?? s ?? '').trim(), done:false }))
@@ -2137,8 +2190,10 @@ renderFocus();
 
 /* ---------- boot ---------- */
 loadSession();
+loadScopeFilter();
 load();
 render(); renderChart();
+refreshScopePills();
 hydrateThumbs();   // restore thumbnails from IndexedDB after a reload
 refreshSyncUI();
 if(loggedIn()) cloudPull(); // cloud is the source of truth on open — pull, NEVER push at boot
