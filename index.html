@@ -417,9 +417,26 @@ body::before{
 .stub .soon-note{font-size:12px;color:var(--muted);margin-top:12px;opacity:.8}
 .focus-timer{
   font-family:var(--serif);font-size:84px;font-weight:500;letter-spacing:.04em;
-  margin-top:20px;
+  margin-top:20px;cursor:pointer;line-height:1.1;
   text-shadow:0 0 40px rgba(124,106,255,.45);
 }
+.focus-timer.running{text-shadow:0 0 46px rgba(124,106,255,.7)}
+.focus-min-input{
+  font-family:var(--serif);font-size:84px;font-weight:500;text-align:center;width:220px;
+  background:transparent;border:none;border-bottom:2px solid rgba(124,106,255,.6);
+  color:var(--text);outline:none;-moz-appearance:textfield;
+}
+.focus-min-input::-webkit-outer-spin-button,.focus-min-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.focus-presets{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.focus-presets .preset{
+  appearance:none;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:600;
+  color:var(--muted);padding:7px 15px;border-radius:999px;border:1px solid var(--border);
+  background:rgba(255,255,255,.04);transition:all .18s ease;
+}
+.focus-presets .preset:hover{color:var(--text);border-color:rgba(124,106,255,.4)}
+.focus-presets .preset.active{color:#fff;border-color:rgba(124,106,255,.6);background:rgba(124,106,255,.18)}
+.focus-controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:20px}
+.focus-controls .act{padding:11px 18px;font-size:13.5px}
 .focus-task{
   display:inline-flex;align-items:center;gap:10px;margin-top:10px;
   font-size:14px;color:var(--muted);
@@ -524,8 +541,9 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
 .done-actions{display:flex;gap:6px;margin-left:auto}
 .done-actions .act{padding:6px 9px}
 /* ---- voice input (Whisper) ---- */
-.dump-actions{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:4px}
-.mic-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer;padding:11px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.045);transition:all .18s ease}
+.dump-actions{display:flex;gap:12px;align-items:stretch;justify-content:center;flex-wrap:wrap;margin-top:4px}
+.dump-actions .btn-dump,.dump-actions .mic-btn{min-height:44px}
+.mic-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer;padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.045);transition:all .18s ease}
 .mic-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(124,106,255,.4)}
 .mic-btn i{font-size:17px}
 .mic-btn.recording{color:#fff;border-color:rgba(255,77,109,.6);background:linear-gradient(148deg,#ff7290,#ff4d6d);animation:micpulse 1.3s infinite}
@@ -701,7 +719,7 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     <textarea id="dumpText" class="dump-box" placeholder="Type everything on your mind… meetings, ideas, errands, that villa Crestron config you keep postponing."></textarea>
     <div class="dump-actions">
       <button class="mic-btn" id="micBtn" type="button" title="Record voice (Arabic or English)"><i class="ti ti-microphone"></i><span>Speak</span></button>
-      <button class="btn-dump" id="processBtn"><i class="ti ti-sparkles"></i><span>Process with AI</span></button>
+      <button class="btn-dump" id="processBtn"><i class="ti ti-sparkles"></i><span>Process</span></button>
     </div>
     <div class="soon-note">Type or tap 🎤 <b>Speak</b> to dictate (Arabic or English). Runs GPT-4o on your text. Add your OpenAI key in <a href="#" id="openSettingsLink" style="color:#b3a7ff">Settings</a> first.</div>
   </div>
@@ -713,10 +731,18 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     <div class="tile tile-now"><i class="ti ti-target-arrow"></i></div>
     <h2>Focus session</h2>
     <p>One task. One timer. Nothing else.</p>
-    <div class="focus-timer">25:00</div>
+    <div class="focus-timer" id="focusTimer" title="Click to set the minutes">25:00</div>
+    <div class="focus-presets" id="focusPresets">
+      <button type="button" class="preset" data-min="15">15</button>
+      <button type="button" class="preset active" data-min="25">25</button>
+      <button type="button" class="preset" data-min="45">45</button>
+      <button type="button" class="preset" data-min="60">60</button>
+    </div>
     <div class="focus-task"><i class="ti ti-bolt" style="color:var(--now)"></i><span>Up next:</span><b id="focusTaskName">—</b></div>
-    <br>
-    <button class="btn-dump" onclick="toast('Focus timer gets wired after design approval ✦')"><i class="ti ti-player-play"></i><span>Start session</span></button>
+    <div class="focus-controls">
+      <button type="button" class="btn-dump" id="focusStart"><i class="ti ti-player-play"></i><span>Start</span></button>
+      <button type="button" class="act act-start" id="focusReset">Reset</button>
+    </div>
   </div>
 </main>
 
@@ -2072,6 +2098,42 @@ async function transcribeAudio(blob, key){
 }
 
 $('#micBtn')?.addEventListener('click', toggleMic);
+
+/* ================================================================
+   Focus timer — editable countdown with presets, start/pause, reset
+================================================================ */
+const focus = { duration:25*60, remain:25*60, running:false, iv:null, editing:false };
+function fmtFocus(s){ s=Math.max(0,s|0); const m=Math.floor(s/60), ss=s%60; return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0'); }
+function renderFocus(){ const el=$('#focusTimer'); if(el && !focus.editing) el.textContent = fmtFocus(focus.remain); }
+function setFocusPreset(m){ document.querySelectorAll('#focusPresets .preset').forEach(b=>b.classList.toggle('active', +b.dataset.min===m)); }
+function setStartBtn(){ const b=$('#focusStart'); if(b) b.innerHTML = focus.running ? '<span>Pause</span>' : '<i class="ti ti-player-play"></i><span>Start</span>'; $('#focusTimer')?.classList.toggle('running', focus.running); }
+function focusTick(){ focus.remain--; renderFocus(); if(focus.remain<=0) endFocus(); }
+function startFocus(){
+  if(focus.editing) $('#focusMinInput')?.blur();
+  if(focus.running){ pauseFocus(); return; }
+  if(focus.remain<=0) focus.remain = focus.duration;
+  focus.running=true; setStartBtn();
+  clearInterval(focus.iv); focus.iv=setInterval(focusTick,1000);
+}
+function pauseFocus(){ focus.running=false; clearInterval(focus.iv); setStartBtn(); }
+function resetFocus(){ pauseFocus(); focus.remain=focus.duration; renderFocus(); }
+function endFocus(){ pauseFocus(); focus.remain=0; renderFocus(); focusBeep(); toast('Focus session done 🎉'); focus.remain=focus.duration; setTimeout(renderFocus,1600); }
+function startFocusEdit(){
+  if(focus.running || focus.editing) return;
+  focus.editing=true;
+  const el=$('#focusTimer'); const mins=Math.max(1,Math.round(focus.remain/60));
+  el.innerHTML=`<input id="focusMinInput" class="focus-min-input" type="number" min="1" max="180" value="${mins}" aria-label="Minutes">`;
+  const inp=$('#focusMinInput'); inp.focus(); inp.select();
+  const commit=()=>{ let m=parseInt(inp.value,10); if(!m||m<1)m=1; if(m>180)m=180; focus.duration=m*60; focus.remain=m*60; focus.editing=false; renderFocus(); setFocusPreset(m); };
+  inp.addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
+  inp.addEventListener('blur', commit, { once:true });
+}
+function focusBeep(){ try{ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; const a=new AC(); const o=a.createOscillator(), g=a.createGain(); o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(a.destination); g.gain.setValueAtTime(0.0001,a.currentTime); g.gain.exponentialRampToValueAtTime(0.25,a.currentTime+0.02); g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+0.7); o.start(); o.stop(a.currentTime+0.72); }catch(e){} }
+$('#focusStart')?.addEventListener('click', startFocus);
+$('#focusReset')?.addEventListener('click', resetFocus);
+$('#focusTimer')?.addEventListener('click', startFocusEdit);
+$('#focusPresets')?.addEventListener('click', e=>{ const b=e.target.closest('.preset'); if(!b) return; if(focus.running) pauseFocus(); const m=+b.dataset.min; focus.duration=m*60; focus.remain=m*60; renderFocus(); setFocusPreset(m); });
+renderFocus();
 
 /* ---------- boot ---------- */
 loadSession();
