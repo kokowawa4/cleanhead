@@ -436,9 +436,6 @@ body::before{
 .focus-presets .preset:hover{color:var(--text);border-color:rgba(124,106,255,.4)}
 .focus-presets .preset.active{color:#fff;border-color:rgba(124,106,255,.6);background:rgba(124,106,255,.18)}
 .focus-controls{display:flex;gap:12px;justify-content:center;align-items:stretch;margin-top:20px}
-.focus-controls .btn-dump,.focus-controls .act{min-height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px}
-.focus-controls .btn-dump{padding:0 22px}
-.focus-controls .act{padding:0 22px;font-size:13.5px}
 .focus-task{
   display:inline-flex;align-items:center;gap:10px;margin-top:10px;
   font-size:14px;color:var(--muted);
@@ -540,15 +537,20 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
 .act-edit:hover{color:#cfc6ff;border-color:rgba(124,106,255,.5);background:rgba(124,106,255,.12);box-shadow:0 0 16px -6px var(--accent)}
 .done-actions{display:flex;gap:6px;margin-left:auto}
 .done-actions .act{padding:6px 9px}
-/* ---- voice input (Whisper) ---- */
+/* ---- unified action buttons (Speak / Process / Start / Reset) ---- */
 .dump-actions{display:flex;gap:12px;align-items:stretch;justify-content:center;flex-wrap:wrap;margin-top:4px}
-.dump-actions .btn-dump,.dump-actions .mic-btn{min-height:44px}
-.mic-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer;padding:10px 18px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.045);transition:all .18s ease}
-.mic-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(124,106,255,.4)}
-.mic-btn i{font-size:17px}
-.mic-btn.recording{color:#fff;border-color:rgba(255,77,109,.6);background:linear-gradient(148deg,#ff7290,#ff4d6d);animation:micpulse 1.3s infinite}
-.mic-btn.busy{opacity:.65;cursor:default}
-.mic-btn.busy i{animation:spin .7s linear infinite}
+.ubtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;padding:0 22px;min-height:48px;border-radius:14px;color:var(--text);border:1px solid rgba(255,255,255,.14);background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 10px 22px -14px rgba(0,0,0,.7);transition:transform .16s ease,border-color .18s ease,box-shadow .2s ease,background .2s ease}
+.ubtn:hover{border-color:rgba(124,106,255,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 12px 26px -12px rgba(124,106,255,.5);transform:translateY(-1px)}
+.ubtn:active{transform:translateY(0)}
+.ubtn i{font-size:16px;color:var(--accent)}
+.ubtn.primary{border-color:rgba(124,106,255,.5);background:linear-gradient(160deg,rgba(124,106,255,.22),rgba(124,106,255,.06))}
+.ubtn.primary i{color:#c9beff}
+.ubtn.primary:hover{border-color:rgba(124,106,255,.72);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 14px 30px -10px rgba(124,106,255,.62)}
+/* Speak recording / transcribing states */
+#micBtn.recording{color:#fff;border-color:rgba(255,77,109,.6);background:linear-gradient(148deg,#ff7290,#ff4d6d);animation:micpulse 1.3s infinite}
+#micBtn.recording i{color:#fff}
+#micBtn.busy{opacity:.65;cursor:default}
+#micBtn.busy i{animation:spin .7s linear infinite}
 @keyframes micpulse{0%{box-shadow:0 0 0 0 rgba(255,77,109,.5)}70%{box-shadow:0 0 0 12px rgba(255,77,109,0)}100%{box-shadow:0 0 0 0 rgba(255,77,109,0)}}
 /* ---- personal / work scope: filter pills + card tags + edit control ---- */
 .scope-filter{display:flex;gap:6px}
@@ -564,8 +566,8 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
 @media (max-width:680px){.scope-pill span{display:none}.scope-pill{padding:8px 10px}}
 
 /* processing state on the Process button */
-.btn-dump.loading{opacity:.85;pointer-events:none}
-.btn-dump.loading i{animation:spin .7s linear infinite}
+.btn-dump.loading,.ubtn.loading{opacity:.85;pointer-events:none}
+.btn-dump.loading i,.ubtn.loading i{animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---- generation progress toast (persistent, bottom-right) ---- */
@@ -734,8 +736,8 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     <p>Empty your head. Everything in one box — GPT-4o sorts it into Do Now, Do Soon, Waiting, and Ideas.</p>
     <textarea id="dumpText" class="dump-box" placeholder="Type everything on your mind… meetings, ideas, errands, that villa Crestron config you keep postponing."></textarea>
     <div class="dump-actions">
-      <button class="mic-btn" id="micBtn" type="button" title="Record voice (Arabic or English)"><i class="ti ti-microphone"></i><span>Speak</span></button>
-      <button class="btn-dump" id="processBtn"><i class="ti ti-sparkles"></i><span>Process</span></button>
+      <button class="ubtn" id="micBtn" type="button" title="Record voice (Arabic or English)"><i class="ti ti-microphone"></i><span>Speak</span></button>
+      <button class="ubtn primary" id="processBtn"><i class="ti ti-sparkles"></i><span>Process</span></button>
     </div>
     <div class="soon-note">Type or tap 🎤 <b>Speak</b> to dictate (Arabic or English). Runs GPT-4o on your text. Add your OpenAI key in <a href="#" id="openSettingsLink" style="color:#b3a7ff">Settings</a> first.</div>
   </div>
@@ -756,8 +758,8 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     </div>
     <div class="focus-task"><i class="ti ti-bolt" style="color:var(--now)"></i><span>Up next:</span><b id="focusTaskName">—</b></div>
     <div class="focus-controls">
-      <button type="button" class="btn-dump" id="focusStart"><i class="ti ti-player-play"></i><span>Start</span></button>
-      <button type="button" class="act act-start" id="focusReset">Reset</button>
+      <button type="button" class="ubtn primary" id="focusStart"><i class="ti ti-player-play"></i><span>Start</span></button>
+      <button type="button" class="ubtn" id="focusReset">Reset</button>
     </div>
   </div>
 </main>
