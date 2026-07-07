@@ -374,6 +374,16 @@ body::before{
 .range:focus-visible{outline:2px solid var(--accent)}
 .chart-wrap{margin-top:6px}
 .chart-wrap svg{width:100%;height:auto;display:block}
+/* workload pipeline bars */
+.pipeline{margin-top:18px;display:flex;flex-direction:column;gap:15px}
+.pl-row{display:grid;grid-template-columns:118px 1fr 32px;align-items:center;gap:14px}
+.pl-label{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--text);white-space:nowrap}
+.pl-label i{font-size:16px}
+.pl-track{height:14px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+.pl-fill{height:100%;border-radius:999px;min-width:7px;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.pl-count{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--text);text-align:right}
+.pl-empty{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:520px){.pl-row{grid-template-columns:92px 1fr 26px;gap:10px}.pl-label{font-size:12px}.pl-label i{font-size:14px}}
 
 /* ============ BOTTOM NAV ============ */
 .bottomnav{
@@ -712,20 +722,11 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
   <!-- progress -->
   <section class="progress section-gap" aria-label="Progress">
     <div class="progress-head">
-      <div class="tile tile-accent"><i class="ti ti-activity"></i></div>
+      <div class="tile tile-accent"><i class="ti ti-checklist"></i></div>
       <div>
-        <div class="progress-title">Progress</div>
-        <div class="progress-sub">Overview of completed tasks</div>
+        <div class="progress-title">Workload</div>
+        <div class="progress-sub">Where things stand right now</div>
       </div>
-      <select class="range" id="rangeSel" aria-label="Time range">
-        <option>This Week</option>
-        <option>Last Week</option>
-        <option>This Month</option>
-      </select>
-    </div>
-    <div class="legend">
-      <span><i class="l-acc"></i>Completed tasks</span>
-      <span><i class="l-idea"></i>Ideas captured</span>
     </div>
     <div class="chart-wrap" id="chart"></div>
   </section>
@@ -1132,89 +1133,25 @@ function doneCard(t){
   </article>`;
 }
 
-/* ---------- chart ---------- */
-function smoothPath(pts){
-  if(pts.length < 2) return '';
-  let d = `M ${pts[0][0]},${pts[0][1]}`;
-  for(let i=0;i<pts.length-1;i++){
-    const p0 = pts[Math.max(0,i-1)], p1 = pts[i], p2 = pts[i+1], p3 = pts[Math.min(pts.length-1,i+2)];
-    const c1x = p1[0] + (p2[0]-p0[0])/6, c1y = p1[1] + (p2[1]-p0[1])/6;
-    const c2x = p2[0] - (p3[0]-p1[0])/6, c2y = p2[1] - (p3[1]-p1[1])/6;
-    d += ` C ${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2[0]},${p2[1]}`;
-  }
-  return d;
-}
-
-/* Build the last-7-days series from real task activity (completed + ideas per day) */
-function computeWeek(){
-  const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const days = [], completed = [], ideas = [];
-  const dayStart = d => { const x=new Date(d); x.setHours(0,0,0,0); return x.getTime(); };
-  const today0 = dayStart(Date.now());
-  const tasks = state.tasks || [];
-  for(let k=6;k>=0;k--){
-    const start = today0 - k*86400000, end = start + 86400000;
-    const d = new Date(start);
-    days.push(DOW[d.getDay()]);
-    completed.push(tasks.filter(t=> typeof t.completedAt==='number' && t.completedAt>=start && t.completedAt<end).length);
-    ideas.push(tasks.filter(t=> t.cat==='idea' && typeof t.createdAt==='number' && t.createdAt>=start && t.createdAt<end).length);
-  }
-  return { days, completed, ideas };
-}
-
+/* ---------- workload pipeline (respects the Personal/Work filter) ---------- */
 function renderChart(){
-  const W=1100, H=290, padL=46, padR=30, padT=36, padB=44;
-  const {days, completed, ideas} = computeWeek();
-  const peak = Math.max(...completed, ...ideas, 0);
-  const maxY = Math.max(4, Math.ceil(peak/4)*4), n = days.length; // clean multiple of 4 → integer gridlines
-  const x = i => padL + i*(W-padL-padR)/(n-1);
-  const y = v => padT + (1 - v/maxY)*(H-padT-padB);
-
-  const cPts = completed.map((v,i)=>[x(i), +y(v).toFixed(1)]);
-  const iPts = ideas.map((v,i)=>[x(i), +y(v).toFixed(1)]);
-
-  const grid = [0,1,2,3,4].map(k=>{ const v=maxY*k/4; return `
-    <line x1="${padL}" y1="${y(v)}" x2="${W-padR}" y2="${y(v)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-    <text x="${padL-10}" y="${y(v)+4}" fill="#7070a0" font-size="12" text-anchor="end" font-family="Inter,sans-serif">${v}</text>`; }).join('');
-
-  const labels = days.map((d,i)=>`
-    <text x="${x(i)}" y="${H-14}" fill="#7070a0" font-size="12.5" text-anchor="middle" font-family="Inter,sans-serif">${d}</text>`).join('');
-
-  const dots = (pts,color)=>pts.map(p=>`
-    <circle cx="${p[0]}" cy="${p[1]}" r="4" fill="${color}" stroke="#0e0e1a" stroke-width="2" filter="url(#glow)"/>`).join('');
-
-  // floating value badges on the peak day of each line (hidden when the peak is 0)
-  const peakI = completed.indexOf(Math.max(...completed));
-  const ideaI = ideas.indexOf(Math.max(...ideas));
-  const badge = (cx, cy, big, small, fill, stroke) => big>0 ? `
-    <g transform="translate(${cx-34},${cy-58})">
-      <rect width="68" height="46" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="1"/>
-      <text x="34" y="20" fill="#fff" font-size="16" font-weight="700" text-anchor="middle" font-family="Inter,sans-serif">${big}</text>
-      <text x="34" y="36" fill="rgba(255,255,255,.75)" font-size="10.5" text-anchor="middle" font-family="Inter,sans-serif">${small}</text>
-    </g>` : '';
-
-  $('#chart').innerHTML = `
-  <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weekly progress chart">
-    <defs>
-      <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="2.2" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <linearGradient id="fillAcc" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="rgba(var(--accent-rgb),.20)"/>
-        <stop offset="100%" stop-color="rgba(var(--accent-rgb),0)"/>
-      </linearGradient>
-    </defs>
-    ${grid}
-    <path d="${smoothPath(cPts)} L ${cPts.at(-1)[0]},${y(0)} L ${cPts[0][0]},${y(0)} Z" fill="url(#fillAcc)"/>
-    <path d="${smoothPath(iPts)}" fill="none" stroke="#3ddc84" stroke-width="2.5" filter="url(#glow)"/>
-    <path d="${smoothPath(cPts)}" fill="none" stroke="var(--accent)" stroke-width="2.5" filter="url(#glow)"/>
-    ${dots(iPts,'#3ddc84')}
-    ${dots(cPts,'var(--accent)')}
-    ${badge(x(peakI), y(completed[peakI]), completed[peakI], 'Completed', 'rgba(var(--accent-rgb),.32)', 'rgba(var(--accent-rgb),.7)')}
-    ${badge(x(ideaI), y(ideas[ideaI]), ideas[ideaI], 'Ideas', 'rgba(61,220,132,.22)', 'rgba(61,220,132,.6)')}
-    ${labels}
-  </svg>`;
+  const el = $('#chart'); if(!el) return;
+  const inScope = t => !t.scope || scopeFilter[t.scope] !== false;
+  const tasks = (state.tasks||[]).filter(inScope);
+  const rows = [
+    { label:'Do Now',  icon:'ti-bolt',      color:'var(--now)',     n: tasks.filter(t=>t.cat==='now').length },
+    { label:'Do Soon', icon:'ti-calendar',  color:'var(--soon)',    n: tasks.filter(t=>t.cat==='soon' && !t.waiting).length },
+    { label:'Waiting', icon:'ti-hourglass', color:'var(--waiting)', n: tasks.filter(t=>!!t.waiting && t.cat!=='done').length },
+    { label:'Ideas',   icon:'ti-bulb',      color:'var(--idea)',    n: tasks.filter(t=>t.cat==='idea').length },
+    { label:'Done',    icon:'ti-checkbox',  color:'var(--done)',    n: tasks.filter(t=>t.cat==='done').length },
+  ];
+  const max = Math.max(1, ...rows.filter(r=>r.label!=='Done').map(r=>r.n)); // scale to active workload; Done doesn't dominate
+  const active = rows.filter(r=>r.n>0).length;
+  el.innerHTML = '<div class="pipeline">' + rows.map(r=>{
+    const w = r.n ? Math.max(7, Math.min(100, Math.round(r.n/max*100))) : 0;
+    const fill = r.n ? '<div class="pl-fill" style="width:'+w+'%;background:'+r.color+';box-shadow:0 0 14px -3px '+r.color+'"></div>' : '';
+    return '<div class="pl-row"><div class="pl-label"><i class="ti '+r.icon+'" style="color:'+r.color+'"></i>'+r.label+'</div><div class="pl-track">'+fill+'</div><div class="pl-count">'+r.n+'</div></div>';
+  }).join('') + '</div>' + (active===0 ? '<div class="pl-empty">Nothing here yet — capture a few tasks to see your workload.</div>' : '');
 }
 
 /* ---------- interactions ---------- */
@@ -1353,7 +1290,7 @@ function refreshScopePills(){ document.querySelectorAll('#scopeFilter .scope-pil
 $('#scopeFilter')?.addEventListener('click', e=>{
   const b=e.target.closest('.scope-pill'); if(!b) return;
   const s=b.dataset.scope; scopeFilter[s]=!scopeFilter[s];
-  saveScopeFilter(); refreshScopePills(); render();
+  saveScopeFilter(); refreshScopePills(); render(); renderChart();
 });
 
 /* ---------- page switching ---------- */
