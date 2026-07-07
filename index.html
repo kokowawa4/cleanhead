@@ -348,6 +348,9 @@ body::before{
   transition:all .2s ease;
 }
 .add-task:hover{color:var(--text);border-color:color-mix(in srgb, var(--c) 50%, transparent);background:color-mix(in srgb, var(--c) 6%, transparent)}
+.quick-add{margin-top:auto}
+.quick-add-input{width:100%;font-family:var(--sans);font-size:13.5px;color:var(--text);background:rgba(255,255,255,.05);border:1.5px solid color-mix(in srgb, var(--c) 55%, transparent);border-radius:13px;padding:11px 14px;outline:none}
+.quick-add-input::placeholder{color:var(--muted)}
 
 /* ============ PROGRESS ============ */
 .progress{
@@ -1154,6 +1157,33 @@ function renderChart(){
   }).join('') + '</div>' + (active===0 ? '<div class="pl-empty">Nothing here yet — capture a few tasks to see your workload.</div>' : '');
 }
 
+/* ---------- quick manual add (per column) ---------- */
+function startQuickAdd(btn){
+  const cat = btn.dataset.cat;
+  const wrap = document.createElement('div');
+  wrap.className = 'quick-add';
+  wrap.innerHTML = `<input type="text" class="quick-add-input" maxlength="140" placeholder="New ${cat==='idea'?'idea':'task'}… (Enter)" aria-label="New task title">`;
+  btn.replaceWith(wrap);
+  const inp = wrap.querySelector('input'); inp.focus();
+  let done = false;
+  const finish = (addIt)=>{
+    if(done) return; done = true;
+    const title = inp.value.trim();
+    if(addIt && title){
+      const c = ['now','soon','idea','done'].includes(cat) ? cat : 'soon';
+      const task = { id:'m'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), cat:c, createdAt:Date.now(), title:title.slice(0,140), icon:ICON_DEFAULT[c] || (c==='done'?'ti-circle-check':'ti-circle') };
+      if(c==='done') task.completedAt = Date.now();
+      state.tasks.push(task); save(); toast('Task added ✓');
+    }
+    render(); renderChart();
+  };
+  inp.addEventListener('keydown', e=>{
+    if(e.key==='Enter'){ e.preventDefault(); finish(true); }
+    else if(e.key==='Escape'){ finish(false); }
+  });
+  inp.addEventListener('blur', ()=> finish(true));
+}
+
 /* ---------- interactions ---------- */
 document.addEventListener('click', e=>{
   const tgl = e.target.closest('[data-toggle]');
@@ -1179,7 +1209,7 @@ document.addEventListener('click', e=>{
     return;
   }
   const add = e.target.closest('.add-task');
-  if(add){ toast('Manual add + AI capture land in step 2 ✦'); return; }
+  if(add){ startQuickAdd(add); return; }
 
   const gen = e.target.closest('[data-gen]');
   if(gen){
