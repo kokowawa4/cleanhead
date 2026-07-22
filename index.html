@@ -387,6 +387,40 @@ body::before{
 .pl-count{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--text);text-align:right}
 .pl-empty{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
 @media (max-width:520px){.pl-row{grid-template-columns:92px 1fr 26px;gap:10px}.pl-label{font-size:12px}.pl-label i{font-size:14px}}
+/* ---- projects page ---- */
+#page-projects .progress{max-width:980px;margin:0 auto}
+.proj-add{margin-left:auto;min-height:42px;padding:0 16px;font-size:13px}
+.proj-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.proj-sum-card{border:1px solid var(--border);border-radius:var(--r-md);background:rgba(255,255,255,.03);padding:14px 16px}
+.proj-sum-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.proj-sum-num{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:5px}
+.proj-sum-num.pos{color:var(--idea)}
+.proj-sum-num.neg{color:var(--now)}
+.proj-list{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+.proj-card{display:flex;align-items:center;gap:16px;flex-wrap:wrap;border:1px solid var(--border);border-radius:var(--r-md);background:rgba(255,255,255,.025);padding:15px 18px;transition:border-color .2s, background .2s}
+.proj-card:hover{border-color:rgba(var(--accent-rgb),.4);background:rgba(255,255,255,.045)}
+.proj-main{min-width:180px;flex:1}
+.proj-name{font-family:var(--serif);font-size:16.5px;font-weight:600}
+.proj-date{font-size:11.5px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:5px}
+.proj-note{font-size:12px;color:var(--muted);margin-top:5px;font-style:italic;opacity:.9}
+.proj-nums{display:flex;gap:22px;align-items:center}
+.proj-num-label{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.proj-num{font-family:var(--mono);font-size:14.5px;font-weight:600;margin-top:3px;white-space:nowrap}
+.proj-num.pos{color:var(--idea)}
+.proj-num.neg{color:var(--now)}
+.proj-margin{font-size:10.5px;color:var(--muted);margin-left:5px}
+.proj-actions{display:flex;gap:6px;margin-left:auto}
+.proj-empty{margin-top:22px;padding:28px;text-align:center;color:var(--muted);font-size:13.5px;border:1.5px dashed rgba(255,255,255,.1);border-radius:var(--r-md)}
+@media (max-width:640px){
+  #page-projects .progress{padding:18px 14px 14px}
+  .proj-summary{grid-template-columns:1fr;gap:8px}
+  .proj-add{width:100%;margin-left:0;margin-top:6px;justify-content:center}
+  .proj-card{padding:13px 14px}
+  .proj-nums{gap:8px;width:100%;justify-content:space-between;flex-wrap:wrap}
+  .proj-nums>div{min-width:0}
+  .proj-num{font-size:11.5px}
+  .proj-actions{margin-left:0;width:100%;justify-content:flex-end}
+}
 
 /* ============ BOTTOM NAV ============ */
 .bottomnav{
@@ -658,6 +692,7 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
     <button class="tab active" data-page="dashboard">Dashboard</button>
     <button class="tab" data-page="capture">Capture</button>
     <button class="tab" data-page="focus">Focus</button>
+    <button class="tab" data-page="projects">Projects</button>
   </nav>
 
   <div class="top-actions">
@@ -772,13 +807,28 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
   </div>
 </main>
 
+<!-- ============ PROJECTS ============ -->
+<main class="page" id="page-projects">
+  <section class="progress" aria-label="Projects">
+    <div class="progress-head">
+      <div class="tile tile-accent"><i class="ti ti-building"></i></div>
+      <div>
+        <div class="progress-title">Projects</div>
+        <div class="progress-sub">Your projects — value, cost, and profit</div>
+      </div>
+      <button type="button" class="ubtn primary proj-add" id="addProject"><i class="ti ti-plus"></i><span>Add project</span></button>
+    </div>
+    <div class="proj-summary" id="projSummary"></div>
+    <div id="projList"></div>
+  </section>
+</main>
+
 <!-- ============ BOTTOM NAV ============ -->
 <nav class="bottomnav" aria-label="Bottom navigation">
   <button class="bn-item active" data-page="dashboard"><i class="ti ti-circle-check"></i><span>Tasks</span></button>
   <button class="bn-item" data-page="capture"><i class="ti ti-inbox"></i><span>Capture</span></button>
   <button class="bn-item" data-page="focus"><i class="ti ti-target-arrow"></i><span>Focus</span></button>
-  <button class="bn-item" onclick="toast('Reminders — planned for a later step')"><i class="ti ti-bell"></i><span>Reminders</span></button>
-  <button class="bn-item" onclick="toast('Calendar — planned for a later step')"><i class="ti ti-calendar"></i><span>Calendar</span></button>
+  <button class="bn-item" data-page="projects"><i class="ti ti-building"></i><span>Projects</span></button>
   <button class="bn-item" onclick="openSettings()"><i class="ti ti-settings"></i><span>Settings</span></button>
 </nav>
 
@@ -900,6 +950,42 @@ textarea.field{font-family:var(--sans);resize:vertical;min-height:44px;line-heig
   </div>
 </div>
 
+<!-- ============ PROJECT MODAL ============ -->
+<div class="modal-overlay" id="projModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Project">
+    <div class="modal-head">
+      <div class="tile tile-accent"><i class="ti ti-building"></i></div>
+      <div>
+        <div class="modal-title" id="projModalTitle">New project</div>
+        <div class="modal-sub">Name, value, and cost — profit is computed.</div>
+      </div>
+      <button type="button" class="modal-x" id="closeProj" aria-label="Close"><i class="ti ti-x"></i></button>
+    </div>
+
+    <label class="field-label" for="projName">Project name</label>
+    <input id="projName" class="field" type="text" placeholder="e.g. Villa Ahmed — AV system" autocomplete="off" spellcheck="false">
+
+    <div class="edit-grid">
+      <div>
+        <label class="field-label" for="projValue">Value (SAR)</label>
+        <input id="projValue" class="field" type="number" inputmode="decimal" min="0" placeholder="client price" autocomplete="off">
+      </div>
+      <div>
+        <label class="field-label" for="projCost">Cost (SAR)</label>
+        <input id="projCost" class="field" type="number" inputmode="decimal" min="0" placeholder="your cost" autocomplete="off">
+      </div>
+    </div>
+
+    <label class="field-label" for="projNote">Note</label>
+    <textarea id="projNote" class="field" rows="2" placeholder="Optional note…" spellcheck="false"></textarea>
+
+    <div class="modal-actions">
+      <button type="button" class="act act-del" id="deleteProj" style="display:none"><i class="ti ti-trash"></i>Delete</button>
+      <button type="button" class="btn-dump" id="saveProj"><i class="ti ti-check"></i><span>Save</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -976,6 +1062,12 @@ function load(){
     const raw = localStorage.getItem(LS_KEY);
     state = raw ? JSON.parse(raw) : (loggedIn() ? empty : structuredClone(SEED));
   }catch(e){ state = loggedIn() ? empty : structuredClone(SEED); }
+  normalizeState();
+}
+/* additive migrations — older local/cloud blobs may predate newer keys */
+function normalizeState(){
+  if(!Array.isArray(state.tasks)) state.tasks = [];
+  if(!Array.isArray(state.projects)) state.projects = [];
 }
 /* ---------- thumbnails live in IndexedDB, not localStorage ----------
    AI thumbnails are ~1-2 MB base64 each; keeping them in localStorage blows
@@ -1062,6 +1154,7 @@ function render(){
     `;
     board.appendChild(col);
   }
+  renderProjects(); // keep the Projects page in sync with every re-render
 }
 
 function taskCard(t){
@@ -1184,6 +1277,103 @@ function startQuickAdd(btn){
   inp.addEventListener('blur', ()=> finish(true));
 }
 
+/* ================= PROJECTS ================= */
+const fmtMoney = n => (typeof n==='number' && isFinite(n)) ? new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n)+' SAR' : '—';
+
+function renderProjects(){
+  const list = $('#projList'), sum = $('#projSummary');
+  if(!list || !sum) return;
+  const ps = state.projects || [];
+
+  // summary totals (only numbers that exist)
+  const tv = ps.reduce((a,p)=> a + (typeof p.value==='number' ? p.value : 0), 0);
+  const tc = ps.reduce((a,p)=> a + (typeof p.cost==='number'  ? p.cost  : 0), 0);
+  const tp = tv - tc;
+  sum.innerHTML = `
+    <div class="proj-sum-card"><div class="proj-sum-label">Total value</div><div class="proj-sum-num">${fmtMoney(tv)}</div></div>
+    <div class="proj-sum-card"><div class="proj-sum-label">Total cost</div><div class="proj-sum-num">${fmtMoney(tc)}</div></div>
+    <div class="proj-sum-card"><div class="proj-sum-label">Total profit</div><div class="proj-sum-num ${tp>0?'pos':tp<0?'neg':''}">${fmtMoney(tp)}</div></div>`;
+
+  if(!ps.length){
+    list.innerHTML = `<div class="proj-empty">No projects yet — tap “Add project”, or just mention one (with its numbers) in a brain dump.</div>`;
+    return;
+  }
+  const sorted = [...ps].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  list.innerHTML = '<div class="proj-list">' + sorted.map(p=>{
+    const hasV = typeof p.value==='number', hasC = typeof p.cost==='number';
+    const profit = (hasV && hasC) ? p.value - p.cost : null;
+    const margin = (profit!==null && p.value>0) ? Math.round(profit/p.value*100) : null;
+    const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    return `
+    <div class="proj-card">
+      <div class="proj-main">
+        <div class="proj-name">${esc(p.name)}</div>
+        <div class="proj-date"><i class="ti ti-calendar"></i>Added ${dateStr}</div>
+        ${p.note ? `<div class="proj-note">${esc(p.note)}</div>` : ''}
+      </div>
+      <div class="proj-nums">
+        <div><div class="proj-num-label">Value</div><div class="proj-num">${fmtMoney(hasV?p.value:null)}</div></div>
+        <div><div class="proj-num-label">Cost</div><div class="proj-num">${fmtMoney(hasC?p.cost:null)}</div></div>
+        <div><div class="proj-num-label">Profit</div><div class="proj-num ${profit>0?'pos':profit<0?'neg':''}">${profit!==null?fmtMoney(profit):'—'}${margin!==null?`<span class="proj-margin">${margin}%</span>`:''}</div></div>
+      </div>
+      <div class="proj-actions">
+        <button type="button" class="act act-edit" data-pedit="${p.id}" title="Edit project"><i class="ti ti-pencil"></i></button>
+        <button type="button" class="act act-del" data-pdel="${p.id}" title="Delete project" style="margin-left:0"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>`;
+  }).join('') + '</div>';
+}
+
+/* ---- project modal ---- */
+let editingProjId = null; // null = create mode
+
+function openProject(id){
+  editingProjId = id || null;
+  const p = id ? (state.projects||[]).find(x=>x.id===id) : null;
+  $('#projModalTitle').textContent = p ? 'Edit project' : 'New project';
+  $('#projName').value  = p ? (p.name||'') : '';
+  $('#projValue').value = p && typeof p.value==='number' ? p.value : '';
+  $('#projCost').value  = p && typeof p.cost==='number'  ? p.cost  : '';
+  $('#projNote').value  = p ? (p.note||'') : '';
+  $('#deleteProj').style.display = p ? '' : 'none';
+  const m = $('#projModal');
+  m.classList.add('open'); m.setAttribute('aria-hidden','false');
+  setTimeout(()=>$('#projName').focus(), 60);
+}
+function closeProject(){
+  const m = $('#projModal');
+  m.classList.remove('open'); m.setAttribute('aria-hidden','true');
+  editingProjId = null;
+}
+function saveProjectModal(){
+  const name = $('#projName').value.trim();
+  if(!name){ toast('Project name can’t be empty', true); return; }
+  const num = el => { const v = parseFloat($(el).value); return isFinite(v) ? v : null; };
+  const value = num('#projValue'), cost = num('#projCost');
+  const note = $('#projNote').value.trim();
+  if(editingProjId){
+    const p = (state.projects||[]).find(x=>x.id===editingProjId);
+    if(p){ p.name=name; p.value=value; p.cost=cost; if(note) p.note=note; else delete p.note; }
+  } else {
+    const p = { id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), name, createdAt:Date.now(), value, cost };
+    if(note) p.note = note;
+    state.projects.push(p);
+  }
+  save(); renderProjects();
+  closeProject();
+  toast(editingProjId ? 'Project updated ✓' : 'Project added ✓');
+}
+$('#addProject')?.addEventListener('click', ()=>openProject(null));
+$('#saveProj')?.addEventListener('click', saveProjectModal);
+$('#closeProj')?.addEventListener('click', closeProject);
+$('#deleteProj')?.addEventListener('click', ()=>{
+  if(!editingProjId) return closeProject();
+  state.projects = (state.projects||[]).filter(x=>x.id!==editingProjId);
+  save(); renderProjects(); closeProject(); toast('Project deleted');
+});
+$('#projModal')?.addEventListener('click', e=>{ if(e.target.id==='projModal') closeProject(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeProject(); });
+
 /* ---------- interactions ---------- */
 document.addEventListener('click', e=>{
   const tgl = e.target.closest('[data-toggle]');
@@ -1219,6 +1409,14 @@ document.addEventListener('click', e=>{
   }
   const edit = e.target.closest('[data-edit]');
   if(edit){ openEditor(edit.dataset.edit); return; }
+  const pe = e.target.closest('[data-pedit]');
+  if(pe){ openProject(pe.dataset.pedit); return; }
+  const pd = e.target.closest('[data-pdel]');
+  if(pd){
+    state.projects = (state.projects||[]).filter(x=>x.id!==pd.dataset.pdel);
+    save(); renderProjects(); toast('Project deleted');
+    return;
+  }
 });
 
 document.addEventListener('change', e=>{
@@ -1433,6 +1631,7 @@ function importData(file){
     if(!confirm('Import this backup? It replaces your current tasks and settings on this device.')) return;
     try{
       state = obj.data;
+      normalizeState();
       save();
       if(typeof obj.model==='string') localStorage.setItem(MODEL_LS, obj.model);
       if(typeof obj.key==='string'){ if(obj.key) localStorage.setItem(KEY_LS, obj.key); else localStorage.removeItem(KEY_LS); }
@@ -1534,6 +1733,7 @@ async function cloudPull(){
     const rows = await r.json();
     if(rows.length && rows[0].data && Array.isArray(rows[0].data.tasks)){
       state = rows[0].data;
+      normalizeState();
       saveLocal();
       render(); renderChart();
       hydrateThumbs();
@@ -1601,13 +1801,14 @@ Your job:
 Extract the discrete actionable items and return ONLY valid JSON.
 
 Output format:
-{"tasks":[ ... ]}
+{"tasks":[ ... ], "projects":[ ... ]}
 
 No prose.
 No markdown.
 No comments.
 No trailing commas.
-No extra keys outside "tasks".
+No extra keys outside "tasks" and "projects".
+Omit "projects" entirely when no project is mentioned (do not emit an empty array).
 
 Each task object may use these fields:
 
@@ -1723,6 +1924,17 @@ Each task object may use these fields:
 
 Allowed icons:
 ti-activity, ti-alarm, ti-archive, ti-bell, ti-bolt, ti-book, ti-bookmark, ti-brand-whatsapp, ti-briefcase, ti-bug, ti-building, ti-building-estate, ti-building-skyscraper, ti-bulb, ti-calendar, ti-calendar-event, ti-camera, ti-car, ti-cash, ti-check, ti-checkbox, ti-checklist, ti-chevron-down, ti-circle, ti-circle-check, ti-circuit-resistor, ti-clipboard, ti-clipboard-list, ti-clock, ti-cloud, ti-code, ti-coffee, ti-cpu, ti-credit-card, ti-database, ti-device-desktop, ti-device-laptop, ti-dots, ti-eye, ti-file-description, ti-file-dollar, ti-file-invoice, ti-file-text, ti-files, ti-flag, ti-headphones, ti-home, ti-home-bolt, ti-hourglass, ti-hourglass-low, ti-inbox, ti-key, ti-link, ti-list-check, ti-loader-2, ti-lock, ti-mail, ti-mail-forward, ti-map-pin, ti-message, ti-message-2, ti-microphone, ti-network, ti-paint, ti-pencil, ti-phone, ti-photo, ti-pin, ti-plane, ti-player-play, ti-plug, ti-plug-connected, ti-plus, ti-point, ti-presentation, ti-receipt, ti-rocket, ti-route, ti-ruler, ti-ruler-measure, ti-send, ti-server, ti-settings, ti-shield, ti-shopping-cart, ti-signature, ti-sparkles, ti-speakerphone, ti-star, ti-target-arrow, ti-tool, ti-tools, ti-topology-star-3, ti-trash, ti-user, ti-users, ti-video, ti-wifi, ti-world, ti-x
+
+Projects (the "projects" array — separate from tasks):
+The user is an AV/Crestron systems integrator. When the dump clearly refers to a REAL named client project / site / job (a villa, a building, a client system, a named deal) AND gives project-level money or clearly introduces it as a new project, add an entry:
+- name (string, required): short natural project name, e.g. "Villa Ahmed — AV system", "Black Arrow HQ".
+- value (number or omit): the project's total price to the client, plain number, no currency text, no thousands separators. Interpret shorthand: "250k" = 250000, "1.2m" = 1200000.
+- cost (number or omit): the user's own cost for the project, same number rules.
+- note (string or omit): one short useful detail if stated.
+Rules:
+- Only real projects — never invent one, never create a project for a generic task or errand.
+- If the dump only mentions money for an existing project ("villa Ahmed cost talla3 200k"), still emit it with just that number — the app merges by name.
+- A project mention may ALSO produce tasks (e.g. "send quotation for villa Ahmed" → a task AND, if numbers/new project context exist, a project entry).
 
 Task extraction rules:
 1. Extract only tasks that are clearly implied by the text.
@@ -2002,8 +2214,36 @@ function addExtractedTasks(obj){
     newTasks.push(task);
     n++;
   }
-  if(n){ save(); render(); renderChart(); }
-  return { count:n, tasks: newTasks };
+  const nProj = addExtractedProjects(obj);
+  if(n || nProj){ save(); render(); renderChart(); }
+  return { count:n, tasks: newTasks, projects:nProj };
+}
+
+/* merge AI-extracted projects into state.projects (match by name, case-insensitive) */
+function addExtractedProjects(obj){
+  const items = Array.isArray(obj?.projects) ? obj.projects : [];
+  let n = 0;
+  for(const it of items){
+    if(!it || !it.name) continue;
+    const name = String(it.name).slice(0,120).trim();
+    if(!name) continue;
+    const value = (typeof it.value==='number' && isFinite(it.value)) ? it.value : null;
+    const cost  = (typeof it.cost==='number'  && isFinite(it.cost))  ? it.cost  : null;
+    const note  = it.note ? String(it.note).slice(0,200) : '';
+    const existing = (state.projects||[]).find(p => p.name.trim().toLowerCase() === name.toLowerCase());
+    if(existing){
+      // update only what the dump actually provided — never wipe numbers with null
+      if(value!==null) existing.value = value;
+      if(cost!==null)  existing.cost  = cost;
+      if(note && !existing.note) existing.note = note;
+    } else {
+      const p = { id:'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), name, createdAt:Date.now(), value, cost };
+      if(note) p.note = note;
+      state.projects.push(p);
+    }
+    n++;
+  }
+  return n;
 }
 
 async function processBrainDump(){
@@ -2022,12 +2262,15 @@ async function processBrainDump(){
   try{
     const obj = await callOpenAI(dump, key, getModel());
     const result = addExtractedTasks(obj);
-    const n = result.count;
-    if(n > 0){
+    const n = result.count, np = result.projects || 0;
+    if(n > 0 || np > 0){
       ta.value = '';
-      switchPage('dashboard');
-      toast(`Captured ${n} task${n>1?'s':''} — generating images…`);
-      generateThumbnails(result.tasks); // fire-and-forget; shimmers show progress
+      switchPage(n > 0 ? 'dashboard' : 'projects');
+      const bits = [];
+      if(n)  bits.push(`${n} task${n>1?'s':''}`);
+      if(np) bits.push(`${np} project${np>1?'s':''}`);
+      toast(`Captured ${bits.join(' + ')}${n ? ' — generating images…' : ''}`);
+      if(n) generateThumbnails(result.tasks); // fire-and-forget; shimmers show progress
     } else {
       toast('Nothing to extract — try adding more detail');
     }
