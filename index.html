@@ -390,7 +390,7 @@ body::before{
 /* ---- projects page ---- */
 #page-projects .progress{max-width:980px;margin:0 auto}
 .proj-add{margin-left:auto;min-height:42px;padding:0 16px;font-size:13px}
-.proj-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.proj-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
 .proj-sum-card{border:1px solid var(--border);border-radius:var(--r-md);background:rgba(255,255,255,.03);padding:14px 16px}
 .proj-sum-label{font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
 .proj-sum-num{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:5px}
@@ -410,6 +410,24 @@ body::before{
 .proj-num.neg{color:var(--now)}
 .proj-margin{font-size:10.5px;color:var(--muted);margin-left:5px}
 .proj-actions{display:flex;gap:6px;margin-left:auto}
+/* ---- project payments ---- */
+.proj-pay{width:100%;border-top:1px dashed rgba(255,255,255,.09);margin-top:2px;padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.proj-pay-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.proj-pay-total{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12.5px;font-weight:600}
+.proj-pay-total i{color:var(--idea);font-size:14px}
+.proj-pay-pct{font-size:11.5px;color:var(--muted)}
+.proj-pay-left{font-size:11.5px;color:var(--muted);margin-left:auto}
+.proj-pay-bar{height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.proj-pay-bar>div{height:100%;border-radius:99px;background:var(--idea)}
+.proj-pay-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pay-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;padding:3px 9px;border:1px solid var(--border);border-radius:99px;background:rgba(255,255,255,.04);color:var(--text)}
+.pay-chip button{background:none;border:0;cursor:pointer;color:var(--muted);font-size:13px;line-height:1;padding:0}
+.pay-chip button:hover{color:var(--now)}
+.pay-in{width:154px;min-height:30px;padding:4px 12px;font-size:12px;font-family:var(--mono);border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--text);outline:none}
+.pay-in:focus{border-color:rgba(var(--accent-rgb),.55)}
+.pay-in::-webkit-outer-spin-button,.pay-in::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pay-add{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--muted);cursor:pointer;transition:all .2s}
+.pay-add:hover{color:var(--idea);border-color:rgba(255,255,255,.2)}
 .proj-empty{margin-top:22px;padding:28px;text-align:center;color:var(--muted);font-size:13.5px;border:1.5px dashed rgba(255,255,255,.1);border-radius:var(--r-md)}
 @media (max-width:640px){
   #page-projects .progress{padding:18px 14px 14px}
@@ -1068,6 +1086,7 @@ function load(){
 function normalizeState(){
   if(!Array.isArray(state.tasks)) state.tasks = [];
   if(!Array.isArray(state.projects)) state.projects = [];
+  state.projects.forEach(p=>{ if(p && !Array.isArray(p.payments)) p.payments = []; });
 }
 /* ---------- thumbnails live in IndexedDB, not localStorage ----------
    AI thumbnails are ~1-2 MB base64 each; keeping them in localStorage blows
@@ -1279,6 +1298,9 @@ function startQuickAdd(btn){
 
 /* ================= PROJECTS ================= */
 const fmtMoney = n => (typeof n==='number' && isFinite(n)) ? new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n)+' SAR' : '—';
+const fmtNum   = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n);
+const paidOf   = p => (p.payments||[]).reduce((a,x)=> a + (typeof x.amount==='number' && isFinite(x.amount) ? x.amount : 0), 0);
+const pctStr   = (a,b)=>{ if(!(b>0)) return null; const v=a/b*100; return (v>=10||v===0 ? Math.round(v) : Math.round(v*10)/10)+'%'; };
 
 function renderProjects(){
   const list = $('#projList'), sum = $('#projSummary');
@@ -1289,10 +1311,12 @@ function renderProjects(){
   const tv = ps.reduce((a,p)=> a + (typeof p.value==='number' ? p.value : 0), 0);
   const tc = ps.reduce((a,p)=> a + (typeof p.cost==='number'  ? p.cost  : 0), 0);
   const tp = tv - tc;
+  const tr = ps.reduce((a,p)=> a + paidOf(p), 0);
   sum.innerHTML = `
     <div class="proj-sum-card"><div class="proj-sum-label">Total value</div><div class="proj-sum-num">${fmtMoney(tv)}</div></div>
     <div class="proj-sum-card"><div class="proj-sum-label">Total cost</div><div class="proj-sum-num">${fmtMoney(tc)}</div></div>
-    <div class="proj-sum-card"><div class="proj-sum-label">Total profit</div><div class="proj-sum-num ${tp>0?'pos':tp<0?'neg':''}">${fmtMoney(tp)}</div></div>`;
+    <div class="proj-sum-card"><div class="proj-sum-label">Total profit</div><div class="proj-sum-num ${tp>0?'pos':tp<0?'neg':''}">${fmtMoney(tp)}</div></div>
+    <div class="proj-sum-card"><div class="proj-sum-label">Total received</div><div class="proj-sum-num ${tr>0?'pos':''}">${fmtMoney(tr)}</div></div>`;
 
   if(!ps.length){
     list.innerHTML = `<div class="proj-empty">No projects yet — tap “Add project”, or just mention one (with its numbers) in a brain dump.</div>`;
@@ -1303,6 +1327,9 @@ function renderProjects(){
     const hasV = typeof p.value==='number', hasC = typeof p.cost==='number';
     const profit = (hasV && hasC) ? p.value - p.cost : null;
     const margin = (profit!==null && p.value>0) ? Math.round(profit/p.value*100) : null;
+    const paid = paidOf(p);
+    const pctV = hasV ? pctStr(paid, p.value) : null;
+    const pctP = (profit!==null && profit>0) ? pctStr(paid, profit) : null;
     const dateStr = p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '—';
     return `
     <div class="proj-card">
@@ -1319,6 +1346,20 @@ function renderProjects(){
       <div class="proj-actions">
         <button type="button" class="act act-edit" data-pedit="${p.id}" title="Edit project"><i class="ti ti-pencil"></i></button>
         <button type="button" class="act act-del" data-pdel="${p.id}" title="Delete project" style="margin-left:0"><i class="ti ti-trash"></i></button>
+      </div>
+      <div class="proj-pay">
+        <div class="proj-pay-head">
+          <span class="proj-pay-total"><i class="ti ti-cash"></i>Received ${fmtMoney(paid)}</span>
+          ${pctV ? `<span class="proj-pay-pct">${pctV} of value</span>` : ''}
+          ${pctP ? `<span class="proj-pay-pct">${pctP} of profit</span>` : ''}
+          ${hasV && p.value>0 ? `<span class="proj-pay-left">${fmtMoney(Math.max(0, p.value-paid))} left</span>` : ''}
+        </div>
+        ${hasV && p.value>0 ? `<div class="proj-pay-bar"><div style="width:${Math.min(100, paid/p.value*100)}%"></div></div>` : ''}
+        <div class="proj-pay-row">
+          ${(p.payments||[]).map(x=>`<span class="pay-chip">${x.at ? new Date(x.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' · ' : ''}${fmtNum(x.amount)}<button type="button" data-paydel="${p.id}:${x.id}" title="Remove payment">×</button></span>`).join('')}
+          <input class="pay-in" data-payin="${p.id}" type="number" inputmode="decimal" min="0" placeholder="+ payment (SAR)">
+          <button type="button" class="pay-add" data-payadd="${p.id}" title="Log payment"><i class="ti ti-plus"></i></button>
+        </div>
       </div>
     </div>`;
   }).join('') + '</div>';
@@ -1417,6 +1458,31 @@ document.addEventListener('click', e=>{
     save(); renderProjects(); toast('Project deleted');
     return;
   }
+  const pa = e.target.closest('[data-payadd]');
+  if(pa){ addPayment(pa.dataset.payadd); return; }
+  const pdl = e.target.closest('[data-paydel]');
+  if(pdl){
+    const [pid, payId] = pdl.dataset.paydel.split(':');
+    const p = (state.projects||[]).find(x=>x.id===pid);
+    if(p){ p.payments = (p.payments||[]).filter(x=>x.id!==payId); save(); renderProjects(); toast('Payment removed'); }
+    return;
+  }
+});
+
+/* ---- project payments ---- */
+function addPayment(pid){
+  const inp = document.querySelector(`[data-payin="${pid}"]`);
+  const v = parseFloat(inp?.value);
+  if(!isFinite(v) || v<=0){ toast('Enter a payment amount first', true); return; }
+  const p = (state.projects||[]).find(x=>x.id===pid);
+  if(!p) return;
+  if(!Array.isArray(p.payments)) p.payments = [];
+  p.payments.push({ id:'y'+Date.now().toString(36)+Math.random().toString(36).slice(2,6), amount:v, at:Date.now() });
+  save(); renderProjects();
+  toast(`Payment logged ✓ ${fmtMoney(v)}`);
+}
+document.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && e.target && e.target.matches && e.target.matches('[data-payin]')) addPayment(e.target.dataset.payin);
 });
 
 document.addEventListener('change', e=>{
